@@ -23,16 +23,20 @@ class KategoriSoalController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'nama' => 'required|string',
-            'deskripsi' => 'nullable|string',
-        ]);
-
-        KategoriSoal::create([
-            'nama' => $request->nama,
-            'deskripsi' => $request->deskripsi,
-        ]);
-        return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Ditambahkan');
+        try {
+            $request->validate([
+                'nama' => 'required|string',
+                'deskripsi' => 'nullable|string',
+            ]);
+    
+            KategoriSoal::create([
+                'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
+            ]);
+            return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Ditambahkan');
+        } catch (\Throwable $e) {
+            return redirect()->route('index.kategori')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     public function edit($id) {
@@ -44,22 +48,37 @@ class KategoriSoalController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $request->validate([
-            'nama' => 'required|string',
-            'deskripsi' => 'nullable|string',
-        ]);
-        
-        $kategori_soal = KategoriSoal::find($id);
-        $kategori_soal->update([
-            'nama' => $request->nama,
-            'deskripsi' => $request->deskripsi,
-        ]);
-        return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Diubah');
+        try {
+            $request->validate([
+                'nama' => 'required|string',
+                'deskripsi' => 'nullable|string',
+            ]);
+            
+            $kategori_soal = KategoriSoal::find($id);
+            $kategori_soal->update([
+                'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
+            ]);
+            return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Diubah');
+        } catch (\Throwable $e) {
+            return redirect()->route('index.kategori')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     public function delete($id) {
-        $kategori_soal = KategoriSoal::find($id);
-        $kategori_soal->delete();
-        return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Dihapus');
+        // $kategori_soal = KategoriSoal::find($id);
+        // $kategori_soal->delete();
+        // return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Dihapus');
+        try {
+            $kategori_soal = KategoriSoal::find($id);
+            if (!$kategori_soal) {
+                return redirect()->route('index.kategori')->with('error', 'Kategori Soal tidak ditemukan');
+            }
+    
+            $kategori_soal->delete();
+            return redirect()->route('index.kategori')->with('success', 'Kategori Soal Berhasil Dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('index.kategori')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

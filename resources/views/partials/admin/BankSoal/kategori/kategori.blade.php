@@ -150,11 +150,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <form id="delete-form" action="" method="POST" style="display: inline;">
+                    <button type="button" class="btn btn-danger" id="confirm-delete">Hapus</button>
+                    {{-- <form id="delete-form" action="" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
+                    </form> --}}
                 </div>
             </div>
         </div>
@@ -182,6 +183,24 @@
             var id = $(this).data('id');
             var form = $('#delete-form');
             form.attr('action', '/kategori-soal/' + id);
+
+            // Tampilkan SweetAlert untuk konfirmasi
+            $('#confirm-delete').of('click').on('click', function() {
+                Swal.fire({
+                    title: 'Konfirmasi Hapus',
+                    text: 'Anda yakin ingin menghapus kategori ini?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if(result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
         });
     </script>
 @endsection

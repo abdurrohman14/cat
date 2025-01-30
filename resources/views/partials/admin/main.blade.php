@@ -60,8 +60,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ route('admin.dashboard') }}" class="brand-link">
-                <img src="{{ asset('assets/dist/img/polresta.png') }}" alt="polresta"
-                    class="brand-image img-circle" style="opacity: .8">
+                <img src="{{ asset('assets/dist/img/polresta.png') }}" alt="polresta" class="brand-image img-circle"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">Computer Assisted Test</span>
             </a>
 
@@ -164,6 +164,29 @@
             // Summernote
             $('#summernote').summernote()
         })
+    </script>
+    <!-- Sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: '{{ session('success') }}',
+                    confirmButtonText: 'OK',
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: '{{ session('error') }}',
+                    confirmButtonText: 'OK',
+                });
+            @endif
+        });
     </script>
 </body>
 

@@ -28,28 +28,32 @@ class SoalController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'kategori_soal' => 'required|exists:kategori_soals,id',
-            'soal' => 'required|string',
-            'pilihan_a' => 'nullable|string',
-            'pilihan_b' => 'nullable|string',
-            'pilihan_c' => 'nullable|string',
-            'pilihan_d' => 'nullable|string',
-            'pilihan_e' => 'nullable|string',
-            'jawaban_benar' => 'nullable|string',
-        ]);
-
-        Soal::create([
-            'kategori_soal' => $request->kategori_soal,
-            'soal' => $request->soal,
-            'pilihan_a' => $request->pilihan_a,
-            'pilihan_b' => $request->pilihan_b,
-            'pilihan_c' => $request->pilihan_c,
-            'pilihan_d' => $request->pilihan_d,
-            'pilihan_e' => $request->pilihan_e,
-            'jawaban_benar' => $request->jawaban_benar,
-        ]);
-        return redirect()->route('index.soal')->with('success', 'Soal berhasil ditambah');
+        try {
+            $request->validate([
+                'kategori_soal' => 'required|exists:kategori_soals,id',
+                'soal' => 'required|string',
+                'pilihan_a' => 'nullable|string',
+                'pilihan_b' => 'nullable|string',
+                'pilihan_c' => 'nullable|string',
+                'pilihan_d' => 'nullable|string',
+                'pilihan_e' => 'nullable|string',
+                'jawaban_benar' => 'nullable|string',
+            ]);
+    
+            Soal::create([
+                'kategori_soal' => $request->kategori_soal,
+                'soal' => $request->soal,
+                'pilihan_a' => $request->pilihan_a,
+                'pilihan_b' => $request->pilihan_b,
+                'pilihan_c' => $request->pilihan_c,
+                'pilihan_d' => $request->pilihan_d,
+                'pilihan_e' => $request->pilihan_e,
+                'jawaban_benar' => $request->jawaban_benar,
+            ]);
+            return redirect()->route('index.soal')->with('success', 'Soal berhasil ditambah');
+        } catch (\Throwable $e) {
+            return redirect()->route('index.soal')->with('error', 'Terjadi Kesalahan' . $e->getMessage());
+        }
     }
 
     public function edit($id) {
@@ -63,35 +67,43 @@ class SoalController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $request->validate([
-            'kategori_soal' => 'required|exists:kategori_soals,id',
-            'soal' => 'required|string',
-            'pilihan_a' => 'nullable|string',
-            'pilihan_b' => 'nullable|string',
-            'pilihan_c' => 'nullable|string',
-            'pilihan_d' => 'nullable|string',
-            'pilihan_e' => 'nullable|string',
-            'jawaban_benar' => 'nullable|string',
-        ]);
-
-        $soal = Soal::findOrFail($id);
-        $soal->update([
-            'kategori_soal' => $request->kategori_soal,
-            'soal' => $request->soal,
-            'pilihan_a' => $request->pilihan_a,
-            'pilihan_b' => $request->pilihan_b,
-            'pilihan_c' => $request->pilihan_c,
-            'pilihan_d' => $request->pilihan_d,
-            'pilihan_e' => $request->pilihan_e,
-            'jawaban_benar' => $request->jawaban_benar,
-        ]);
-        return redirect()->route('index.soal')->with('success', 'Soal berhasil diupdate');
+        try {
+            $request->validate([
+                'kategori_soal' => 'required|exists:kategori_soals,id',
+                'soal' => 'required|string',
+                'pilihan_a' => 'nullable|string',
+                'pilihan_b' => 'nullable|string',
+                'pilihan_c' => 'nullable|string',
+                'pilihan_d' => 'nullable|string',
+                'pilihan_e' => 'nullable|string',
+                'jawaban_benar' => 'nullable|string',
+            ]);
+    
+            $soal = Soal::findOrFail($id);
+            $soal->update([
+                'kategori_soal' => $request->kategori_soal,
+                'soal' => $request->soal,
+                'pilihan_a' => $request->pilihan_a,
+                'pilihan_b' => $request->pilihan_b,
+                'pilihan_c' => $request->pilihan_c,
+                'pilihan_d' => $request->pilihan_d,
+                'pilihan_e' => $request->pilihan_e,
+                'jawaban_benar' => $request->jawaban_benar,
+            ]);
+            return redirect()->route('index.soal')->with('success', 'Soal berhasil diupdate');
+        } catch (\Throwable $e) {
+            return redirect()->route('index.soal')->with('error', 'Terjadi kesalahan' . $e->getMessage());
+        }
     }
 
     public function delete($id) {
-        $soal = Soal::find($id);
+        try {
+            $soal = Soal::find($id);
         $soal->delete();
         return redirect()->route('index.soal')->with('success', 'Soal berhasil dihapus');
+        } catch (\Throwable $e) {
+            return redirect()->route('index.soal')->with('error', 'Terjadi kesalahan' . $e->getMessage());
+        }
     }
 
     public function upload() {

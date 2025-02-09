@@ -71,6 +71,8 @@ Route::group(['middleware' => ['role:admin']], function() {
         Route::get('/', [PengaturanController::class, 'index'])->name('setting-index');
         Route::get('/create', [PengaturanController::class, 'create'])->name('setting-create');
         Route::post('/store', [PengaturanController::class, 'store'])->name('setting-store');
+        Route::get('/edit/{id}', [PengaturanController::class, 'edit'])->name('setting-edit');
+        Route::post('/update/{id}', [PengaturanController::class, 'update'])->name('setting-update');
     });
 });
 

@@ -54,12 +54,8 @@
                                             <td>{{ $pengaturan->jumlah_soal }}</td>
                                             <td>{{ $pengaturan->durasi }}</td>
                                             <td>
-                                                {{-- <a href="" class="btn btn-info btn-sm"><i
-                                                        class="fas fa-pencil-alt"></i>edit</a> --}}
-                                                <a class="btn btn-danger btn-sm delete-button" data-id=""
-                                                    data-toggle="modal" data-target="#modal-delete">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </a>
+                                                <a href="{{ route('setting-edit', $pengaturan->id) }}" class="btn btn-info btn-sm"><i
+                                                        class="fas fa-pencil-alt"></i>edit</a>
                                             </td>
                                         </tr>
                                     @endforeach

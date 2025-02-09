@@ -105,7 +105,7 @@
                     <!-- Nama Test -->
                     <p class="text-center fw-bold mb-0">Test</p>
                     <!-- Sisa Waktu -->
-                    <p class="timer mb-0 text-end">Sisa Waktu :</p>
+                    <p class="timer-exam fw-bold mb-0 text-end">Sisa Waktu :</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <!-- Nama Peserta -->
@@ -211,57 +211,58 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Fungsi untuk mengunci layar
             function lockScreen() {
-            if (document.documentElement.requestFullscreen) {
-                document.documentElement.requestFullscreen();
-            } else if (document.documentElement.mozRequestFullScreen) {
-                document.documentElement.mozRequestFullScreen();
-            } else if (document.documentElement.webkitRequestFullscreen) {
-                document.documentElement.webkitRequestFullscreen();
-            } else if (document.documentElement.msRequestFullscreen) {
-                document.documentElement.msRequestFullscreen();
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) {
+                    document.documentElement.msRequestFullscreen();
+                }
             }
-        }
 
-        // Mencegah keluar dari fullscreen
-        document.addEventListener("fullscreenchange", function() {
-            if (!document.fullscreenElement) {
-                alert("Anda keluar dari mode fullscreen! Ujian dihentikan.");
-                window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
-            }
-        });
+            // Mencegah keluar dari fullscreen
+            document.addEventListener("fullscreenchange", function() {
+                if (!document.fullscreenElement) {
+                    alert("Anda keluar dari mode fullscreen! Ujian dihentikan.");
+                    window.location.href =
+                    "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+                }
+            });
 
-        // Cegah tombol keluar
-        document.addEventListener("keydown", function(e) {
-            if (e.key === "Escape" || e.key === "F11" || 
-                (e.ctrlKey && e.key === "w") || 
-                (e.ctrlKey && e.shiftKey && e.key === "T") || 
-                (e.altKey && e.key === "Tab")) {
+            // Cegah tombol keluar
+            document.addEventListener("keydown", function(e) {
+                if (e.key === "Escape" || e.key === "F11" ||
+                    (e.ctrlKey && e.key === "w") ||
+                    (e.ctrlKey && e.shiftKey && e.key === "T") ||
+                    (e.altKey && e.key === "Tab")) {
+                    e.preventDefault();
+                }
+            });
+
+            // Cegah perubahan tab
+            // document.addEventListener("visibilitychange", function() {
+            //     if (document.hidden) {
+            //         alert("Anda berpindah tab! Ujian dihentikan.");
+            //         window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+            //     }
+            // });
+
+            // Cegah klik kanan & inspect element
+            document.addEventListener("contextmenu", function(e) {
                 e.preventDefault();
-            }
-        });
+            });
+            document.addEventListener("keydown", function(e) {
+                if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                    e.preventDefault();
+                }
+            });
 
-        // Cegah perubahan tab
-        // document.addEventListener("visibilitychange", function() {
-        //     if (document.hidden) {
-        //         alert("Anda berpindah tab! Ujian dihentikan.");
-        //         window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
-        //     }
-        // });
-
-        // Cegah klik kanan & inspect element
-        document.addEventListener("contextmenu", function(e) {
-            e.preventDefault();
-        });
-        document.addEventListener("keydown", function(e) {
-            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
-                e.preventDefault();
-            }
-        });
-
-        // Tombol mulai fullscreen saat ujian dimulai
-        document.getElementById("fullscreen-btn").addEventListener("click", function() {
-            lockScreen();
-        });
+            // Tombol mulai fullscreen saat ujian dimulai
+            document.getElementById("fullscreen-btn").addEventListener("click", function() {
+                lockScreen();
+            });
 
             const soalCards = document.querySelectorAll(".soal-card");
             const buttons = document.querySelectorAll('.question-number button');
@@ -336,7 +337,8 @@
             radioButtons.forEach(radio => {
                 radio.addEventListener('change', function() {
                     const questionIndex = parseInt(this.name.replace('answer', ''), 10);
-                    buttons[questionIndex].classList.add('btn-success'); // Tandai tombol sebagai hijau
+                    buttons[questionIndex].classList.add(
+                    'btn-success'); // Tandai tombol sebagai hijau
                 });
             });
 
@@ -382,6 +384,34 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ambil durasi dari backend (dalam menit)
+            let waktuUjian = {{ $durasi }}; // Misalnya, 60 menit
+            let totalDetik = waktuUjian * 60; // Konversi ke detik
+
+            // Fungsi untuk memperbarui timer
+            function updateTimer() {
+                const jam = Math.floor(totalDetik / 3600);
+                const menit = Math.floor((totalDetik % 3600) / 60);
+                const detik = totalDetik % 60;
+
+                // Tampilkan waktu di elemen dengan class "timer"
+                document.querySelector('.timer').textContent =
+                    `${String(jam).padStart(2, '0')}:${String(menit).padStart(2, '0')}:${String(detik).padStart(2, '0')}`;
+
+                // Kurangi totalDetik setiap detik
+                if (totalDetik > 0) {
+                    totalDetik--;
+                } else {
+                    // Jika waktu habis, lakukan sesuatu (misalnya, redirect)
+                    alert("Waktu habis! Ujian dihentikan.");
+                    window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+                }
+            }
+
+            // Panggil updateTimer setiap detik
+            setInterval(updateTimer, 1000);
+        });
     </script>
     <script>
         function selesaiUjian() {

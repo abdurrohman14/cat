@@ -16,7 +16,9 @@ class UserSoalController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $pengaturan = Pengaturan::first();
         $jumlahSoal = Pengaturan::first()->jumlah_soal;
+        $durasi = $pengaturan->durasi;
 
         // Ambil soal acak dari tabel soal_acaks
         $soalAcaks = soalAcak::where('user_id', $user->id)->orderBy('index_soal')->take($jumlahSoal)->get();
@@ -100,6 +102,7 @@ class UserSoalController extends Controller
             'user' => $user,
             'soals' => $soals,
             'title' => 'CAT - Simulasi Ujian Kenaikan Pangkat',
+            'durasi' => $durasi,
         ]);
     }
 

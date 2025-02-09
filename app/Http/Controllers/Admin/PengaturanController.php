@@ -24,30 +24,74 @@ class PengaturanController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'jadwal' => 'required|date',
-            'waktu_mulai' => 'required|date_format:H:i',
-            'waktu_selesai' => 'required|date_format:H:i',
-            'jumlah_soal' => 'required|integer',
-            // 'durasi' => 'required|integer',
-        ]);
-
-        $waktuMulai = Carbon::createFromFormat('H:i', $request->waktu_mulai);
-        $waktuSelesai = Carbon::createFromFormat('H:i', $request->waktu_selesai);
-
-        // dalam format menit
-        $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
-
-        $data = $request->all();
-        $data['durasi'] = $durasi;
-
-        $setting = Pengaturan::first();
-        if($setting) {
-            $setting->update($data);
-        } else {
-            Pengaturan::create($data);
+        try {
+            $request->validate([
+                'jadwal' => 'required|date',
+                'waktu_mulai' => 'required|date_format:H:i',
+                'waktu_selesai' => 'required|date_format:H:i',
+                'jumlah_soal' => 'required|integer',
+                // 'durasi' => 'required|integer',
+            ]);
+    
+            $waktuMulai = Carbon::createFromFormat('H:i', $request->waktu_mulai);
+            $waktuSelesai = Carbon::createFromFormat('H:i', $request->waktu_selesai);
+    
+            // dalam format menit
+            $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
+    
+            $data = $request->all();
+            $data['durasi'] = $durasi;
+    
+            $setting = Pengaturan::first();
+            if($setting) {
+                $setting->update($data);
+            } else {
+                Pengaturan::create($data);
+            }
+    
+            return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil disimpan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
+    }
 
-        return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil disimpan');
+    public function edit($id) {
+        $setting = Pengaturan::find($id);
+        return view('partials.admin.setting.edit', [
+            'title' => 'Pengaturan',
+            'setting' => $setting
+        ]);
+    }
+
+    public function update(Request $request, $id) {
+        try {
+            // Validasi input
+            $request->validate([
+                'jadwal' => 'required|date',
+                'waktu_mulai' => 'required|date_format:H:i',
+                'waktu_selesai' => 'required|date_format:H:i',
+                'jumlah_soal' => 'required|integer',
+                // 'durasi' => 'required|integer', // durasi tidak perlu divalidasi karena akan dihitung
+            ]);
+    
+            // Ambil pengaturan berdasarkan ID
+            $setting = Pengaturan::findOrFail($id);
+    
+            // Menghitung durasi
+            $waktuMulai = Carbon::createFromFormat('H:i', $request->waktu_mulai);
+            $waktuSelesai = Carbon::createFromFormat('H:i', $request->waktu_selesai);
+            $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
+    
+            // Siapkan data untuk diperbarui
+            $data = $request->all();
+            $data['durasi'] = $durasi;
+    
+            // Perbarui pengaturan
+            $setting->update($data);
+    
+            return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil diperbarui');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

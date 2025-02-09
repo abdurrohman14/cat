@@ -95,6 +95,8 @@
     </nav>
 
     <div class="container-fluid mt-4">
+        <h3>Silakan klik tombol di bawah ini untuk masuk ke mode fullscreen.</h3>
+        <button id="fullscreen-btn" class="btn btn-warning">Masuk Fullscreen</button>
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -207,18 +209,72 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Fungsi untuk mengunci layar
+            function lockScreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Mencegah keluar dari fullscreen
+        document.addEventListener("fullscreenchange", function() {
+            if (!document.fullscreenElement) {
+                alert("Anda keluar dari mode fullscreen! Ujian dihentikan.");
+                window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+            }
+        });
+
+        // Cegah tombol keluar
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape" || e.key === "F11" || 
+                (e.ctrlKey && e.key === "w") || 
+                (e.ctrlKey && e.shiftKey && e.key === "T") || 
+                (e.altKey && e.key === "Tab")) {
+                e.preventDefault();
+            }
+        });
+
+        // Cegah perubahan tab
+        // document.addEventListener("visibilitychange", function() {
+        //     if (document.hidden) {
+        //         alert("Anda berpindah tab! Ujian dihentikan.");
+        //         window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+        //     }
+        // });
+
+        // Cegah klik kanan & inspect element
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
+                e.preventDefault();
+            }
+        });
+
+        // Tombol mulai fullscreen saat ujian dimulai
+        document.getElementById("fullscreen-btn").addEventListener("click", function() {
+            lockScreen();
+        });
+
             const soalCards = document.querySelectorAll(".soal-card");
             const buttons = document.querySelectorAll('.question-number button');
             let currentSoal = 0;
             const prevBtn = document.getElementById("prev-btn");
             const nextBtn = document.getElementById("next-btn");
 
-            // Function to update soal display
+            // Fungsi untuk memperbarui tampilan soal
             function updateSoal() {
                 soalCards.forEach((card, index) => {
                     card.style.display = index === currentSoal ? "" : "none";
 
-                    // Set visibility for the choices based on the number of options
+                    // Tetapkan visibilitas untuk pilihan berdasarkna jumlah pilihan
                     const choices = card.querySelectorAll('.form-check');
                     const soal = @json($soals); // Ambil data soal dalam format JSON
                     const currentSoalData = soal[currentSoal];
@@ -226,25 +282,25 @@
                     choices.forEach((choice, idx) => {
                         if (idx >= currentSoalData.length_pilihan) {
                             choice.style.display =
-                                "none"; // Hides the choice if it exceeds the number of available options
+                                "none"; // Menyembunyikan pilihan jika melebihi jumlah opsi yang tersedia
                         } else {
-                            choice.style.display = ""; // Shows the choice
+                            choice.style.display = ""; // Menunjukkan pilihannya
                         }
                     });
                 });
 
                 // Update kategori soal
                 const kategoriSoalElement = document.getElementById("kategori-soal");
-                    const currentSoalData =
+                const currentSoalData =
                     @json($soals); // Ambil data soal dalam format JSON
-                    kategoriSoalElement.textContent = currentSoalData[currentSoal].kategori
+                kategoriSoalElement.textContent = currentSoalData[currentSoal].kategori
                     .nama; // Update kategori
 
                 prevBtn.disabled = currentSoal === 0;
                 nextBtn.disabled = false;
             }
 
-            // Button next (next question)
+            // Button Selanjutnya (next question)
             nextBtn.addEventListener("click", function() {
                 simpanJawaban();
                 if (currentSoal < soalCards.length - 1) {
@@ -255,7 +311,7 @@
                 }
             });
 
-            // Button prev (previous question)
+            // Button sebelumnya (previous question)
             prevBtn.addEventListener("click", function() {
                 if (currentSoal > 0) {
                     currentSoal--;
@@ -269,22 +325,22 @@
                     currentSoal = parseInt(button.getAttribute('data-index'));
                     updateSoal();
 
-                    // Add active class to the current button
+                    // Tambahkan kelas aktif ke tombol saat ini
                     buttons.forEach((btn) => btn.classList.remove('btn-success'));
                     button.classList.add('btn-success');
                 });
             });
 
-            // Add event listeners to each radio input to mark the question as answered
+            // Tambahkan pendengar acara ke setiap masukan radio untuk menandai pertanyaan telah terjawab
             const radioButtons = document.querySelectorAll('.form-check-input');
             radioButtons.forEach(radio => {
                 radio.addEventListener('change', function() {
                     const questionIndex = parseInt(this.name.replace('answer', ''), 10);
-                    buttons[questionIndex].classList.add('btn-success'); // Mark button as green
+                    buttons[questionIndex].classList.add('btn-success'); // Tandai tombol sebagai hijau
                 });
             });
 
-            // Initialize with the first question displayed
+            // Inisialisasi dengan pertanyaan pertama yang ditampilkan
             updateSoal();
         });
 

@@ -106,11 +106,13 @@ class UserSoalController extends Controller
     public function finish()
     {
         $user = Auth::user();
+        Log::info('Menghitung skor untuk user_id: ' . $user->id);
 
         // Hitung skor
         $jawabanUser = Jawaban::where('user_id', $user->id)->get();
+        Log::info('Jawaban user: ', $jawabanUser ->toArray());
         $soalIds = $jawabanUser->pluck('soal_acak_id')->toArray();
-        $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->get();
+        $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->where('user_id', $user->id)->get();
 
         $skor = 0;
         $totalSoal = $soals->count();
@@ -119,10 +121,13 @@ class UserSoalController extends Controller
             $soal = $soalAcak->soal;
             $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
 
+            Log::info('ID soal acak: ' . $soalAcak->soal_id);
+            Log::info('ID soal: ' . $soal->id);
             if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
                 $skor++;
             }
         }
+        Log::info('Skor untuk user_id ' . $user->id . ': ' . $skor);
 
         // Hapus session
         // session()->forget('soal');
@@ -139,7 +144,7 @@ class UserSoalController extends Controller
     {
         $pengaturanId = Pengaturan::first()->id;
         foreach ($request->all() as $jawaban) {
-            $soalAcak = soalAcak::where('index_soal', $jawaban['index_soal'])->first();
+            $soalAcak = soalAcak::where('index_soal', $jawaban['index_soal'])->where('user_id', $jawaban['user_id'])->first();
 
             if ($soalAcak) {
                 $soalAcakId = $soalAcak->id;

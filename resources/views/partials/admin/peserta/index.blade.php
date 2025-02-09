@@ -57,12 +57,8 @@
                                             <td>{{ $peserta->tempat_lahir }}, {{ Carbon\Carbon::parse($peserta->tanggal_lahir)->format('d-m-Y') }}</td>
                                             <td>{{ $peserta->nomor_wa }}</td>
                                             <td>
-                                                <a href=""
+                                                <a href="{{ route('edit.peserta', $peserta->id) }}"
                                                     class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i>edit</a>
-                                                <a class="btn btn-danger btn-sm delete-button" data-id="{{ $peserta->id }}"
-                                                    data-toggle="modal" data-target="#modal-delete">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -79,37 +75,4 @@
         </div>
         <!-- /.container-fluid -->
     </section>
-
-    <!-- Modal Delete -->
-    <div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="modal-delete-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-delete-label">Konfirmasi Hapus</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Anda yakin ingin menghapus peserta ini?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <form id="delete-form" action="" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        $(document).on('click', '.delete-button', function() {
-            var id = $(this).data('id');
-            var form = $('#delete-form');
-            form.attr('action', '/peserta/' + id);
-        });
-    </script>
 @endsection

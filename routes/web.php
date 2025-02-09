@@ -57,7 +57,8 @@ Route::group(['middleware' => ['role:admin']], function() {
         Route::get('/create', [UserController::class, 'create'])->name('create.peserta');
         Route::post('/store', [UserController::class, 'store'])->name('store.peserta');
         Route::post('/', [UserController::class, 'sendNotif'])->name('send-notif');
-        Route::delete('/{id}',[UserController::class, 'destroy'])->name('delete.peserta');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit.peserta');
+        Route::post('/{id}/update',[UserController::class, 'update'])->name('update.peserta');
     });
 
     // Hasil Ujian

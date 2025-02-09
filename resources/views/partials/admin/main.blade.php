@@ -62,7 +62,7 @@
             <a href="{{ route('admin.dashboard') }}" class="brand-link">
                 <img src="{{ asset('assets/dist/img/polresta.png') }}" alt="polresta" class="brand-image img-circle"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">Computer Assisted Test</span>
+                <span class="brand-text font-weight-light">CAT</span>
             </a>
 
             <!-- Sidebar -->

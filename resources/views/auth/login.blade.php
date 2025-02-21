@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - CAT Polresta Banyuwangi</title>
+    <title>{{ $title }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <style>
@@ -17,14 +17,13 @@
             height: 100vh;
         }
 
-        .login-container {
-            background: white;
+        .card {
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 30%;
-            height: 50vh;
+            width: 100%;
+            max-width: 400px;
         }
 
         .logo {
@@ -89,9 +88,9 @@
         Simulasi Ujian Kenaikan Pangkat <br />
         Polresta Banyuwangi
     </p>
-    <div class="login-container">
+    <div class="card">
         <div class="title mb-4">
-            <h4 class="login">LOGIN</h4>
+            <h4 class="login fw-bold">LOGIN</h4>
             <p class="login-subtitle-card">Masukkan email dan password</p>
         </div>
         <form action="{{ route('login') }}" method="POST">
@@ -116,6 +115,7 @@
             </div>
             <button type="submit" class="btn btn-login w-100 mt-4">Login</button>
         </form>
+        <div class="dont-have-account mt-3"><span>Belum memiliki akun?</span><a href="{{ route('register') }}" class="text-decoration-none"> Daftar</a></div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

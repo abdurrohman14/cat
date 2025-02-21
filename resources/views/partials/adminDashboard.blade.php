@@ -42,7 +42,7 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>2</h3>
 
                             <p>Belum Ujian</p>
                         </div>
@@ -57,9 +57,9 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>3</h3>
 
-                            <p>User Registrations</p>
+                            <p>Lulus</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
@@ -72,9 +72,9 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>65</h3>
+                            <h3>3</h3>
 
-                            <p>Unique Visitors</p>
+                            <p>Tidak Lulus</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
@@ -86,7 +86,7 @@
             </div>
             <!-- /.row -->
             <!-- Main row -->
-            <div class="row">
+            {{-- <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-12 connectedSortable">
                     <!-- Custom tabs (Charts with tabs)-->
@@ -123,13 +123,13 @@
                     <!-- /.card -->
                 </section>
                 <!-- /.Left col -->
-            </div>
+            </div> --}}
             <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 
-    <script>
+    {{-- <script>
         $(function() {
             /* Chart.js Charts */
             // Sales chart
@@ -220,5 +220,5 @@
                 options: pieOptions
             })
         });
-    </script>
+    </script> --}}
 @endsection

@@ -7,7 +7,7 @@
             <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link">
+                <a href="{{ route('admin.dashboard') }}" class="nav-link text-white">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link text-white">
                     <i class="nav-icon fas fa-solid fa-clipboard-list"></i>
                     <p>
                         Bank Soal
@@ -24,13 +24,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ route('index.kategori') }}" class="nav-link">
+                        <a href="{{ route('index.kategori') }}" class="nav-link text-white">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kategori</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('index.soal') }}" class="nav-link">
+                        <a href="{{ route('index.soal') }}" class="nav-link text-white">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Soal</p>
                         </a>
@@ -38,7 +38,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link text-white">
                     <i class="nav-icon fas fa-people-group"></i>
                     <p>
                         Ujian
@@ -47,7 +47,7 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ route('peserta') }}" class="nav-link">
+                        <a href="{{ route('peserta') }}" class="nav-link text-white">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Peserta Ujian</p>
                         </a>
@@ -55,7 +55,7 @@
                 </ul>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ route('hasil') }}" class="nav-link">
+                        <a href="{{ route('hasil') }}" class="nav-link text-white">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Hasil Ujian</p>
                         </a>
@@ -63,7 +63,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="{{ route('setting-index') }}" class="nav-link">
+                <a href="{{ route('setting-index') }}" class="nav-link text-white">
                     <i class="nav-icon fas fa-gear"></i>
                     <p>
                         Pengaturan

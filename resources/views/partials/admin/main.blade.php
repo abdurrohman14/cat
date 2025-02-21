@@ -57,12 +57,12 @@
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:#fdb407;">
             <!-- Brand Logo -->
-            <a href="{{ route('admin.dashboard') }}" class="brand-link">
+            <a href="{{ route('admin.dashboard') }}" class="brand-link" style="border-bottom :1px solid white;">
                 <img src="{{ asset('assets/dist/img/polresta.png') }}" alt="polresta" class="brand-image img-circle"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">CAT</span>
+                <span class="brand-text font-weight-light text-white">Computer Assisted Test</span>
             </a>
 
             <!-- Sidebar -->
@@ -81,6 +81,7 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
+        @include('partials.admin.footer')
     </div>
     <!-- ./wrapper -->
 

@@ -25,14 +25,15 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">DataTable with default features</h3>
                             <button class="btn btn-primary btn-sm mr-2 ml-auto"><a href="{{ route('create.peserta') }}"
-                                class="text-decoration-none text-white">
-                                <i class="fa-solid fa-plus"></i> Tambah
-                            </a>
-                        </button>
+                                    class="text-decoration-none text-white">
+                                    <i class="fa-solid fa-plus"></i> Tambah
+                                </a>
+                            </button>
                             <!-- Tombol Kirim Notifikasi -->
                             <form action="{{ route('send-notif') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-success">Kirim <i class="fa-brands fa-whatsapp"></i></button>
+                                <button type="submit" class="btn btn-sm btn-success">Kirim <i
+                                        class="fa-brands fa-whatsapp"></i></button>
                             </form>
                         </div>
                         <!-- /.card-header -->
@@ -54,7 +55,8 @@
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $peserta->nrp }}</td>
                                             <td>{{ $peserta->name }}</td>
-                                            <td>{{ $peserta->tempat_lahir }}, {{ Carbon\Carbon::parse($peserta->tanggal_lahir)->format('d-m-Y') }}</td>
+                                            <td>{{ $peserta->tempat_lahir }},
+                                                {{ Carbon\Carbon::parse($peserta->tanggal_lahir)->format('d-m-Y') }}</td>
                                             <td>{{ $peserta->nomor_wa }}</td>
                                             <td>
                                                 <a href="{{ route('edit.peserta', $peserta->id) }}"

@@ -87,7 +87,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Anda yakin ingin menghapus kategori ini?</p>
+                    <p>Anda yakin ingin menghapus soal ini?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>

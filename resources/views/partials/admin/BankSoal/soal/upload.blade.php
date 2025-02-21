@@ -58,6 +58,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-success">Upload</button>
+                                <button type="submit" class="btn btn-danger"><a href="{{ route('index.soal') }}" class="text-decoration-none text-white">Kembali</a></button>
                             </div>
                         </form>
                     </div>

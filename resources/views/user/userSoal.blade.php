@@ -95,8 +95,8 @@
     </nav>
 
     <div class="container-fluid mt-4">
-        <h3>Silakan klik tombol di bawah ini untuk masuk ke mode fullscreen.</h3>
-        <button id="fullscreen-btn" class="btn btn-warning">Masuk Fullscreen</button>
+        {{-- <h3>Silakan klik tombol di bawah ini untuk masuk ke mode fullscreen.</h3>
+        <button id="fullscreen-btn" class="btn btn-warning">Masuk Fullscreen</button> --}}
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -227,7 +227,7 @@
                 if (!document.fullscreenElement) {
                     alert("Anda keluar dari mode fullscreen! Ujian dihentikan.");
                     window.location.href =
-                    "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+                        "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
                 }
             });
 
@@ -242,17 +242,19 @@
             });
 
             // Cegah perubahan tab
-            // document.addEventListener("visibilitychange", function() {
-            //     if (document.hidden) {
-            //         alert("Anda berpindah tab! Ujian dihentikan.");
-            //         window.location.href = "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
-            //     }
-            // });
+            document.addEventListener("visibilitychange", function() {
+                if (document.hidden) {
+                    alert("Anda berpindah tab! Ujian dihentikan.");
+                    window.location.href =
+                    "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+                }
+            });
 
             // Cegah klik kanan & inspect element
             document.addEventListener("contextmenu", function(e) {
                 e.preventDefault();
             });
+
             document.addEventListener("keydown", function(e) {
                 if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
                     e.preventDefault();
@@ -260,7 +262,10 @@
             });
 
             // Tombol mulai fullscreen saat ujian dimulai
-            document.getElementById("fullscreen-btn").addEventListener("click", function() {
+            // document.getElementById("fullscreen-btn").addEventListener("click", function() {
+            //     lockScreen();
+            // });
+            document.addEventListener("dblclick", function() {
                 lockScreen();
             });
 
@@ -338,7 +343,7 @@
                 radio.addEventListener('change', function() {
                     const questionIndex = parseInt(this.name.replace('answer', ''), 10);
                     buttons[questionIndex].classList.add(
-                    'btn-success'); // Tandai tombol sebagai hijau
+                        'btn-success'); // Tandai tombol sebagai hijau
                 });
             });
 

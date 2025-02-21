@@ -58,6 +58,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="submit" class="btn btn-danger"><a href="{{ route('setting-index') }}" class="text-decoration-none text-white">Kembali</a></button>
                             </div>
                         </form>
                     </div>

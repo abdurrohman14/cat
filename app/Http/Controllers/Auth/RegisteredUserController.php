@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.register', ['title' => 'Daftar - CAT Polresta Banyuwangi']);
     }
 
     /**
@@ -29,24 +29,41 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'nomor_wa' => ['required', 'string', 'max:15'],
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'nomor_wa' => ['required', 'string', 'max:15'],
+                'tempat_lahir' => ['required', 'string', 'max:255'],
+                'tanggal_lahir' => ['required', 'date'],
+                'alamat' => ['required', 'string', 'max:255'],
+                'nrp' => ['required', 'string', 'max:20'],
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'nomor_wa' => $request->nomor_wa,
-        ]);
+            $nomor_wa = $request->nomor_wa;
+            if (substr($nomor_wa, 0, 1) === '0') {
+                $nomor_wa = '+62' . substr($nomor_wa, 1);
+            }
 
-        // event(new Registered($user));
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'nomor_wa' => $nomor_wa,
+                'tempat_lahir' => $request->tempat_lahir,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'alamat' => $request->alamat,
+                'nrp' => $request->nrp,
+            ]);
 
-        // Auth::login($user);
+            // event(new Registered($user));
 
-        return redirect(route('login', absolute: false));
+            // Auth::login($user);
+
+            return redirect(route('login', absolute: false));
+        } catch (\Throwable $e) {
+            return redirect()->route('register')->with('error', $e->getMessage());
+        }
     }
 }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Soal;
 use App\Models\Jawaban;
+use App\Models\soalAcak;
 use App\Models\Pengaturan;
 use Illuminate\Http\Request;
+use App\Models\pelaksanaanUjian;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\soalAcak;
 use Illuminate\Support\Facades\Auth;
 
 class UserSoalController extends Controller
@@ -54,8 +55,18 @@ class UserSoalController extends Controller
             })
             ->values(); // Tambahkan ->values() untuk mengatur ulang indeks
 
+        $pelaksanaanUjian = pelaksanaanUjian::create([
+            'user_id' => $user->id,
+            'pengaturan_id' => $pengaturan->id
+        ],[
+            'skor' => 0,
+        ]);
+
+        $pelaksanaanUjian = pelaksanaanUjian::with('pengaturan')->where('user_id', $user->id)->first();
+        $tanggalUjian = $pelaksanaanUjian->pengaturan->jadwal;
+
         // Ambil jawaban yang sudah disimpan oleh user
-        $jawabanUser = Jawaban::where('user_id', $user->id)->get();
+        $jawabanUser = Jawaban::where('pelaksanaan_ujian_id', $pelaksanaanUjian->id)->get();
 
         // Acak pilihan jawaban untuk setiap soal
         $soals = $soals->map(function ($soal) use ($jawabanUser) {
@@ -103,17 +114,19 @@ class UserSoalController extends Controller
             'soals' => $soals,
             'title' => 'CAT - Simulasi Ujian Kenaikan Pangkat',
             'durasi' => $durasi,
+            'tanggalUjian' => $tanggalUjian
         ]);
     }
 
     public function finish()
     {
         $user = Auth::user();
-        Log::info('Menghitung skor untuk user_id: ' . $user->id);
+        // Log::info('Menghitung skor untuk user_id: ' . $user->id);
 
+        $pelaksanaanUjian = pelaksanaanUjian::where('user_id', $user->id)->latest('created_at')->first();
         // Hitung skor
-        $jawabanUser = Jawaban::where('user_id', $user->id)->get();
-        Log::info('Jawaban user: ', $jawabanUser ->toArray());
+        $jawabanUser = Jawaban::where('pelaksanaan_ujian_id', $pelaksanaanUjian->id)->get();
+        // Log::info('Jawaban user: ', $jawabanUser ->toArray());
         $soalIds = $jawabanUser->pluck('soal_acak_id')->toArray();
         $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->where('user_id', $user->id)->get();
 
@@ -124,13 +137,17 @@ class UserSoalController extends Controller
             $soal = $soalAcak->soal;
             $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
 
-            Log::info('ID soal acak: ' . $soalAcak->soal_id);
-            Log::info('ID soal: ' . $soal->id);
+            // Log::info('ID soal acak: ' . $soalAcak->soal_id);
+            // Log::info('ID soal: ' . $soal->id);
             if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
                 $skor++;
             }
         }
-        Log::info('Skor untuk user_id ' . $user->id . ': ' . $skor);
+
+        $pelaksanaanUjian->update([
+            'skor' => $skor,
+        ]);
+        // Log::info('Skor untuk user_id ' . $user->id . ': ' . $skor);
 
         // Hapus session
         // session()->forget('soal');
@@ -145,8 +162,9 @@ class UserSoalController extends Controller
     // Simpan Jawaban Secara Real-Time
     public function simpanJawaban(Request $request)
     {
-        $pengaturanId = Pengaturan::first()->id;
+        // $pengaturanId = Pengaturan::first()->id;
         foreach ($request->all() as $jawaban) {
+            $pelaksanaanUjian = pelaksanaanUjian::where('user_id', $jawaban['user_id'])->latest('created_at')->first();
             $soalAcak = soalAcak::where('index_soal', $jawaban['index_soal'])->where('user_id', $jawaban['user_id'])->first();
 
             if ($soalAcak) {
@@ -157,7 +175,7 @@ class UserSoalController extends Controller
                 // Tentukan jawaban benar dan salah
                 $benar = ($jawaban['jawaban'] == $soal->jawaban_benar) ? 1 : 0;
                 // Simpan ke database
-                Jawaban::updateOrCreate(['user_id' => $jawaban['user_id'], 'soal_acak_id' => $soalAcakId], ['jawaban' => $jawaban['jawaban'], 'pengaturan_id' => $pengaturanId, 'benar' => $benar]);
+                Jawaban::updateOrCreate([ 'soal_acak_id' => $soalAcakId], ['jawaban' => $jawaban['jawaban'], 'pelaksanaan_ujian_id' => $pelaksanaanUjian->id, 'benar' => $benar]);
             }
         }
 

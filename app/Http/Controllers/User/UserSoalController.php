@@ -121,39 +121,45 @@ class UserSoalController extends Controller
     public function finish()
     {
         $user = Auth::user();
-        // Log::info('Menghitung skor untuk user_id: ' . $user->id);
 
         $pelaksanaanUjian = pelaksanaanUjian::where('user_id', $user->id)->latest('created_at')->first();
         // Hitung skor
         $jawabanUser = Jawaban::where('pelaksanaan_ujian_id', $pelaksanaanUjian->id)->get();
-        // Log::info('Jawaban user: ', $jawabanUser ->toArray());
+        
         $soalIds = $jawabanUser->pluck('soal_acak_id')->toArray();
         $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->where('user_id', $user->id)->get();
 
         $skor = 0;
         $totalSoal = $soals->count();
+        $bobotSoal = 4;
 
-        foreach($soals as $soalAcak) {
-            $soal = $soalAcak->soal;
-            $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
+        if($totalSoal > 0) {
+            foreach($soals as $soalAcak) {
+                $soal = $soalAcak->soal;
+                $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
 
-            // Log::info('ID soal acak: ' . $soalAcak->soal_id);
-            // Log::info('ID soal: ' . $soal->id);
-            if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
-                $skor++;
+                if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
+                    $skor += $bobotSoal;
+                }
             }
+    
+            // Hitung Nilai Akhir
+            $totalPoinMaksimal = $totalSoal * $bobotSoal;
+            $nilaiAkhir = ($skor / $totalPoinMaksimal) * 100;
+        } else {
+            $nilaiAkhir = 0;
         }
 
-        $pelaksanaanUjian->update([
-            'skor' => $skor,
-        ]);
-        // Log::info('Skor untuk user_id ' . $user->id . ': ' . $skor);
+        $status = $nilaiAkhir >= 61 ? 'Lulus' : 'Tidak Lulus';
 
-        // Hapus session
-        // session()->forget('soal');
+        $pelaksanaanUjian->update([
+            'skor' => $nilaiAkhir,
+            'status' => $status,
+        ]);
+        
         return view('user.liveScore', [
             'user' => $user,
-            'skor' => $skor,
+            'skor' => $nilaiAkhir,
             'totalSoal' => $totalSoal,
             'title' => 'CAT - Simulasi Ujian Kenaikan Pangkat',
         ]);

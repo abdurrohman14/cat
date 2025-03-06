@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('pengaturan_id')->references('id')->on('pengaturans')->onDelete('cascade');
             $table->integer('skor')->nullable();
-            $table->boolean('status')->default(0);
+            $table->enum('status', ['Lulus', 'Tidak Lulus']);
             $table->timestamps();
         });
     }

@@ -94,14 +94,20 @@
               <div class="info-item">
                 <div class="label">Skor</div>
                 <div>:</div>
-                <div>{{ $skor }} dari {{ $totalSoal }}</div>
+                <div>{{ number_format($skor, 2) }}</div>
               </div>
               <div class="info-item">
                 <div class="label">Status</div>
                 <div>:</div>
-                <div class="fw-bold text-success">Lulus</div>
+                <div class="fw-bold {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">
+                  {{ $skor >= 61 ? 'Lulus' : 'Tidak Lulus' }}
               </div>
+              </div>
+              @if ($skor >= 61)
               <p class="text-success fw-bold text-center">Selamat anda telah lulus ujian!</p>
+              @else
+              <p class="text-danger fw-bold text-center">Maaf anda belum lulus ujian. Silahkan coba lagi</p>
+              @endif
             </div>
           </div>
           <div class="d-flex justify-content-center mt-3">

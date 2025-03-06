@@ -198,7 +198,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                    <button type="button" class="btn btn-primary" onclick="selesaiUjian()">Ya</button>
+                    <button type="button" class="btn btn-primary" id="selesaiUjian" onclick="selesaiUjian()">Ya</button>
                 </div>
             </div>
         </div>
@@ -209,6 +209,7 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            let selesaiUjian = false;
             // Fungsi untuk mengunci layar
             function lockScreen() {
                 if (document.documentElement.requestFullscreen) {
@@ -241,12 +242,20 @@
                 }
             });
 
+            document.getElementById("selesaiUjian").addEventListener("click", function() {
+                let selesaiUjian = true;
+            });
+
             // Cegah perubahan tab
             document.addEventListener("visibilitychange", function() {
-                if (document.hidden) {
-                    alert("Anda berpindah tab! Ujian dihentikan.");
-                    window.location.href =
-                    "{{ route('finish-ujian') }}"; // Redirect ke halaman finish ujian
+                if (document.hidden && !selesaiUjian) {
+                    const userConfirm = confirm("Anda berpindah tab! Ujian dihentikan.");
+                    if (userConfirm) {
+                        window.location.href = "{{ route('finish-ujian') }}";
+                    } else {
+                        window.location.href =
+                        "{{ route('soal-ujian') }}"; // Redirect ke halaman finish ujian
+                    }
                 }
             });
 

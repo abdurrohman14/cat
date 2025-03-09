@@ -128,13 +128,4 @@ class UserController extends Controller
         return redirect()->route('peserta')->with('success', 'Pesan Berhasil Dikirimkan');
     }
 
-    // Hasil Ujian
-    public function hasilUjian()
-    {
-        $hasilUjian = Jawaban::all();
-        return view('partials.admin.jawaban.index', [
-            'title' => 'Hasil Ujian',
-            'hasilUjian' => $hasilUjian,
-        ]);
-    }
 }

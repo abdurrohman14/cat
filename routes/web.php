@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PengaturanController;
 use App\Http\Controllers\Admin\KategoriSoalController;
 use App\Http\Controllers\User\UserSoalController;
+use App\Http\Controllers\Admin\HasilUjianController;
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -63,7 +64,7 @@ Route::group(['middleware' => ['role:admin']], function() {
 
     // Hasil Ujian
     Route::prefix('hasil-ujian')->group(function () {
-        Route::get('/', [UserController::class, 'hasilUjian'])->name('hasil');
+        Route::get('/', [HasilUjianController::class, 'index'])->name('hasil');
     });
 
     // Pengaturan

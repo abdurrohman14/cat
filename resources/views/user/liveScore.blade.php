@@ -97,6 +97,16 @@
                 <div>{{ number_format($skor, 2) }}</div>
               </div>
               <div class="info-item">
+                <div class="label">Benar</div>
+                <div>:</div>
+                <div>{{ $totalBenar }}</div>
+              </div>
+              <div class="info-item">
+                <div class="label">Salah</div>
+                <div>:</div>
+                <div>{{ $totalSalah }}</div>
+              </div>
+              <div class="info-item">
                 <div class="label">Status</div>
                 <div>:</div>
                 <div class="fw-bold {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">

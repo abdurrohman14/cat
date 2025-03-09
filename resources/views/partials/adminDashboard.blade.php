@@ -42,7 +42,7 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>2</h3>
+                            <h3>{{ $belumUjian }}</h3>
 
                             <p>Belum Ujian</p>
                         </div>
@@ -57,7 +57,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>3</h3>
+                            <h3>{{ $lulus }}</h3>
 
                             <p>Lulus</p>
                         </div>
@@ -72,7 +72,7 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>3</h3>
+                            <h3>{{ $tidakLulus }}</h3>
 
                             <p>Tidak Lulus</p>
                         </div>

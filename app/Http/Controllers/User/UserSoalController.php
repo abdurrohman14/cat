@@ -132,6 +132,8 @@ class UserSoalController extends Controller
         $skor = 0;
         $totalSoal = $soals->count();
         $bobotSoal = 4;
+        $totalBenar = 0;
+        $totalSalah = 0;
 
         if($totalSoal > 0) {
             foreach($soals as $soalAcak) {
@@ -139,7 +141,10 @@ class UserSoalController extends Controller
                 $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
 
                 if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
+                    $totalBenar++;
                     $skor += $bobotSoal;
+                } else {
+                    $totalSalah++;
                 }
             }
     
@@ -161,6 +166,8 @@ class UserSoalController extends Controller
             'user' => $user,
             'skor' => $nilaiAkhir,
             'totalSoal' => $totalSoal,
+            'totalBenar' => $totalBenar,
+            'totalSalah' => $totalSalah,
             'title' => 'CAT - Simulasi Ujian Kenaikan Pangkat',
         ]);
     }

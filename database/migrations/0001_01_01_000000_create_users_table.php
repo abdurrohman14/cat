@@ -20,6 +20,7 @@ return new class extends Migration
             $table->char('nomor_wa', '15')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->text('alamat')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->char('password');

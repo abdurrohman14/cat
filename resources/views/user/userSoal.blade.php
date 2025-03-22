@@ -173,7 +173,7 @@
                             @endforeach
                         </div>
                         <div class="button-finish">
-                            <button class="btn" data-bs-toggle="modal" data-bs-target="#selesaiUjian">Selesai
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="#selesaiUjian">Akhiri
                                 Ujian</button>
                         </div>
                     </div>

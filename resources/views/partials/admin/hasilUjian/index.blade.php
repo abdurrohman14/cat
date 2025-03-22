@@ -39,6 +39,7 @@
                                     <th>Nama</th>
                                     <th>Status</th>
                                     <th>Skor</th>
+                                    {{-- <th>Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,6 +49,10 @@
                                         <td>{{ $hasil->user->name }}</td>
                                         <td class="{{ $hasil->status == 'Lulus' ? 'text-success' : 'text-danger'}}">{{ $hasil->status }}</td>
                                         <td>{{ $hasil->skor }}</td>
+                                        {{-- <td>
+                                            <a href="{{ route('edit.hasil', $hasil->id) }}"
+                                                class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i>edit</a>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

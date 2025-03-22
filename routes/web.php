@@ -65,6 +65,8 @@ Route::group(['middleware' => ['role:admin']], function() {
     // Hasil Ujian
     Route::prefix('hasil-ujian')->group(function () {
         Route::get('/', [HasilUjianController::class, 'index'])->name('hasil');
+        // Route::get('/{id}/edit', [HasilUjianController::class, 'edit'])->name('edit.hasil');
+        // Route::post('/{id}/update', [HasilUjianController::class, 'update'])->name('update.hasil');
     });
 
     // Pengaturan

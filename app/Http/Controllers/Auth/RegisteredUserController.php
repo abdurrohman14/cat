@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
                 'tanggal_lahir' => ['required', 'date'],
                 'alamat' => ['required', 'string', 'max:255'],
                 'nrp' => ['required', 'string', 'max:20'],
+                'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
             ]);
 
             $nomor_wa = $request->nomor_wa;
@@ -55,6 +56,7 @@ class RegisteredUserController extends Controller
                 'tanggal_lahir' => $request->tanggal_lahir,
                 'alamat' => $request->alamat,
                 'nrp' => $request->nrp,
+                'jenis_kelamin' => $request->jenis_kelamin,
             ]);
 
             // event(new Registered($user));

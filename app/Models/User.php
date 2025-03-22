@@ -26,6 +26,7 @@ class User extends Authenticatable
         'tanggal_lahir',
         'tempat_lahir',
         'nrp',
+        'jenis_kelamin',
     ];
 
     /**

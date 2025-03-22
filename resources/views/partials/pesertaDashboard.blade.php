@@ -1,3 +1,8 @@
+@php
+use Illuminate\Support\Str;
+$nomor_wa = Str::replaceFirst('+62', '0', $user->nomor_wa);
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,6 +120,11 @@
                             <div class="label">Email</div>
                             <div>:</div>
                             <div>{{ $user->email }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="label">No. Telpon</div>
+                            <div>:</div>
+                            <div>{{ $nomor_wa }}</div>
                         </div>
                         <div class="info-item">
                             <div class="label">Alamat</div>

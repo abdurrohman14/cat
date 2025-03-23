@@ -106,26 +106,26 @@ class UserController extends Controller
         }
     }
 
-    public function sendNotif(Request $request)
-    {
-        // ambil data dari tabel pengaturan
-        $pengaturan = Pengaturan::first();
+    // public function sendNotif(Request $request)
+    // {
+    //     // ambil data dari tabel pengaturan
+    //     $pengaturan = Pengaturan::first();
 
-        if (!$pengaturan) {
-            return redirect()->route('peserta')->with('error', 'Pengaturan belum diatur');
-        }
+    //     if (!$pengaturan) {
+    //         return redirect()->route('peserta')->with('error', 'Pengaturan belum diatur');
+    //     }
 
-        $jadwalUjian = Carbon::parse($pengaturan->jadwal)->translatedFormat('l, d F Y');
-        $waktuMulai = $pengaturan->waktu_mulai;
-        $waktuSelesai = $pengaturan->waktu_selesai;
+    //     $jadwalUjian = Carbon::parse($pengaturan->jadwal)->translatedFormat('l, d F Y');
+    //     $waktuMulai = $pengaturan->waktu_mulai;
+    //     $waktuSelesai = $pengaturan->waktu_selesai;
 
-        $user = User::where('role', '!=', 'admin')->get();
+    //     $user = User::where('role', '!=', 'admin')->get();
 
-        foreach ($user as $user) {
-            $message = "Halo, {$user->name}. Berikut adalah informasi penting.\n\n" . "Username: {$user->email}\n" . "Password: {$user->nrp}\n\n" . "Jadwal Ujian: {$jadwalUjian}\n\n" . "Waktu: {$waktuMulai} - {$waktuSelesai}\n\n" . 'Selamat Mengerjakan. Good Luck!';
-            WhatsAppHelper::sendWhatsAppMessage($user->nomor_wa, $message);
-        }
-        return redirect()->route('peserta')->with('success', 'Pesan Berhasil Dikirimkan');
-    }
+    //     foreach ($user as $user) {
+    //         $message = "Halo, {$user->name}. Berikut adalah informasi penting.\n\n" . "Username: {$user->email}\n" . "Password: {$user->nrp}\n\n" . "Jadwal Ujian: {$jadwalUjian}\n\n" . "Waktu: {$waktuMulai} - {$waktuSelesai}\n\n" . 'Selamat Mengerjakan. Good Luck!';
+    //         WhatsAppHelper::sendWhatsAppMessage($user->nomor_wa, $message);
+    //     }
+    //     return redirect()->route('peserta')->with('success', 'Pesan Berhasil Dikirimkan');
+    // }
 
 }

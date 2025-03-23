@@ -24,17 +24,17 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">DataTable with default features</h3>
-                            <button class="btn btn-primary btn-sm mr-2 ml-auto"><a href="{{ route('create.peserta') }}"
+                            <button class="btn btn-primary btn-sm ml-auto"><a href="{{ route('create.peserta') }}"
                                     class="text-decoration-none text-white">
                                     <i class="fa-solid fa-plus"></i> Tambah
                                 </a>
                             </button>
                             <!-- Tombol Kirim Notifikasi -->
-                            <form action="{{ route('send-notif') }}" method="POST">
+                            {{-- <form action="{{ route('send-notif') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-success">Kirim <i
                                         class="fa-brands fa-whatsapp"></i></button>
-                            </form>
+                            </form> --}}
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

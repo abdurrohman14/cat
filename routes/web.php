@@ -57,7 +57,7 @@ Route::group(['middleware' => ['role:admin']], function() {
         Route::get('/', [UserController::class, 'index'])->name('peserta');
         Route::get('/create', [UserController::class, 'create'])->name('create.peserta');
         Route::post('/store', [UserController::class, 'store'])->name('store.peserta');
-        Route::post('/', [UserController::class, 'sendNotif'])->name('send-notif');
+        // Route::post('/', [UserController::class, 'sendNotif'])->name('send-notif');
         Route::get('/{id}/edit', [UserController::class, 'edit'])->name('edit.peserta');
         Route::post('/{id}/update',[UserController::class, 'update'])->name('update.peserta');
     });

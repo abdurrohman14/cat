@@ -8,4 +8,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-Schedule::command('whatsapp:send-whatsapp-notification')->dailyAt('07:00');
+Schedule::command('whatsapp:send-whatsapp-notification')->hourly();

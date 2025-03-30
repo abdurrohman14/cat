@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\JadwalUjianDibuat;
 use App\Models\Pengaturan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,9 +47,10 @@ class PengaturanController extends Controller
             if($setting) {
                 $setting->update($data);
             } else {
-                Pengaturan::create($data);
+                $setting = Pengaturan::create($data);
             }
-    
+            
+            event(new JadwalUjianDibuat($setting));
             return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil disimpan');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

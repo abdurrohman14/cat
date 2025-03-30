@@ -29,6 +29,7 @@ class SendWhatsappNotification extends Command
      */
     public function handle()
     {
+        Carbon::setLocale('id');
         // ambil data dari tabel pengaturan
         $pengaturan = Pengaturan::first();
 
@@ -43,7 +44,12 @@ class SendWhatsappNotification extends Command
         $user = User::where('role', '!=', 'admin')->get();
 
         foreach ($user as $user) {
-            $message = "Halo, {$user->name}. Berikut adalah informasi penting.\n\n" . "Username: {$user->email}\n" . "Password: {$user->nrp}\n\n" . "Jadwal Ujian: {$jadwalUjian}\n\n" . "Waktu: {$waktuMulai} - {$waktuSelesai}\n\n" . 'Selamat Mengerjakan. Good Luck!';
+            $message = "Halo, {$user->name}. Berikut adalah informasi penting.\n\n" . 
+                        "Username: {$user->email}\n" . 
+                        "Password: {$user->password}\n\n" . 
+                        "📝 *Jadwal Ujian*: {$jadwalUjian}\n\n" . 
+                        "⏰ *Waktu*: {$waktuMulai} - {$waktuSelesai}\n\n" . 
+                        'Selamat belajar dan semoga sukses! 🎓';
             WhatsAppHelper::sendWhatsAppMessage($user->nomor_wa, $message);
         }
         // return redirect()->route('peserta')->with('success', 'Pesan Berhasil Dikirimkan');

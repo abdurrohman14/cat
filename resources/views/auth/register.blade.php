@@ -141,7 +141,7 @@
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
-                    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin" required>
                         <option value="" selected disabled>Pilih Jenis Kelamin</option>
                         <option value="Laki-laki">Laki-laki</option>
                         <option value="Perempuan">Perempuan</option>

@@ -95,8 +95,6 @@
     </nav>
 
     <div class="container-fluid mt-4">
-        {{-- <h3>Silakan klik tombol di bawah ini untuk masuk ke mode fullscreen.</h3>
-        <button id="fullscreen-btn" class="btn btn-warning">Masuk Fullscreen</button> --}}
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-2">
@@ -236,6 +234,7 @@
             document.addEventListener("keydown", function(e) {
                 if (e.key === "Escape" || e.key === "F11" ||
                     (e.ctrlKey && e.key === "w") ||
+                    (e.ctrlKey && e.key === "r") ||
                     (e.ctrlKey && e.shiftKey && e.key === "T") ||
                     (e.altKey && e.key === "Tab")) {
                     e.preventDefault();
@@ -270,10 +269,6 @@
                 }
             });
 
-            // Tombol mulai fullscreen saat ujian dimulai
-            // document.getElementById("fullscreen-btn").addEventListener("click", function() {
-            //     lockScreen();
-            // });
             document.addEventListener("dblclick", function() {
                 lockScreen();
             });
@@ -398,6 +393,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+        
         document.addEventListener("DOMContentLoaded", function() {
             // Ambil durasi dari backend (dalam menit)
             let waktuUjian = {{ $durasi }}; // Misalnya, 60 menit
@@ -426,13 +422,11 @@
             // Panggil updateTimer setiap detik
             setInterval(updateTimer, 1000);
         });
-    </script>
-    <script>
+
         function selesaiUjian() {
             simpanJawaban();
             window.location.href = '/finish-ujian';
         }
     </script>
 </body>
-
 </html>

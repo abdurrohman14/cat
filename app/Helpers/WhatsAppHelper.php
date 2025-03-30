@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class WhatsAppHelper {
 public static function sendWhatsAppMessage($to, $message)

@@ -51,6 +51,12 @@
             padding: 4px;
         }
 
+        .question-number .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border: 1px solid #fff;
+        }
+
         .question-number .btn-success {
             background-color: #6bc74a;
             /* Hijau */
@@ -196,7 +202,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
-                    <button type="button" class="btn btn-primary" id="selesaiUjian" onclick="selesaiUjian()">Ya</button>
+                    <button type="button" class="btn btn-primary" id="selesaiUjian"
+                        onclick="selesaiUjian()">Ya</button>
                 </div>
             </div>
         </div>
@@ -232,7 +239,7 @@
 
             // Cegah tombol keluar
             document.addEventListener("keydown", function(e) {
-                if (e.key === "Escape" || e.key === "F11" ||
+                if (e.key === "Escape" || e.key === "F11" || e.key === "F5" ||
                     (e.ctrlKey && e.key === "w") ||
                     (e.ctrlKey && e.key === "r") ||
                     (e.ctrlKey && e.shiftKey && e.key === "T") ||
@@ -248,12 +255,12 @@
             // Cegah perubahan tab
             document.addEventListener("visibilitychange", function() {
                 if (document.hidden && !selesaiUjian) {
-                    const userConfirm = confirm("Anda berpindah tab! Ujian dihentikan.");
+                    const userConfirm = confirm("Apakah anda yakin ingin keluar dari sesi ujian ini?");
                     if (userConfirm) {
                         window.location.href = "{{ route('finish-ujian') }}";
                     } else {
                         window.location.href =
-                        "{{ route('soal-ujian') }}"; // Redirect ke halaman finish ujian
+                            "{{ route('soal-ujian') }}"; // Redirect ke halaman finish ujian
                     }
                 }
             });
@@ -299,6 +306,22 @@
                     });
                 });
 
+                buttons.forEach((btn, index) => {
+                    const isAnswered = document.querySelector(`input[name="answer${index}"]:checked`);
+                    btn.classList.remove('btn-success', 'btn-danger', 'btn-light');
+
+                    if (index === currentSoal) {
+                        // Jika tombol aktif sekarang, beri warna putih
+                        btn.classList.add('btn-light');
+                    } else if (isAnswered) {
+                        // Jika soal sudah dijawab, hijau
+                        btn.classList.add('btn-success');
+                    } else {
+                        // Jika soal belum dijawab, merah
+                        btn.classList.add('btn-danger');
+                    }
+                });
+
                 // Update kategori soal
                 const kategoriSoalElement = document.getElementById("kategori-soal");
                 const currentSoalData =
@@ -336,8 +359,23 @@
                     updateSoal();
 
                     // Tambahkan kelas aktif ke tombol saat ini
-                    buttons.forEach((btn) => btn.classList.remove('btn-success'));
-                    button.classList.add('btn-success');
+                    buttons.forEach((btn, index) => {
+                        const isAnswered = document.querySelector(
+                            `input[name="answer${index}"]:checked`);
+
+                        // Reset class
+                        btn.classList.remove('btn-success', 'btn-danger', 'btn-light');
+
+                        if (index === currentSoal) {
+                            btn.classList.add('btn-light'); // aktif sekarang
+                        } else if (isAnswered) {
+                            btn.classList.add('btn-success'); // sudah dijawab
+                        } else {
+                            btn.classList.add('btn-danger'); // belum dijawab
+                        }
+                    });
+                    // buttons.forEach((btn) => btn.classList.remove('btn-primary'));
+                    // button.classList.add('btn-primary');
                 });
             });
 
@@ -393,7 +431,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-        
+
         document.addEventListener("DOMContentLoaded", function() {
             // Ambil durasi dari backend (dalam menit)
             let waktuUjian = {{ $durasi }}; // Misalnya, 60 menit
@@ -429,4 +467,5 @@
         }
     </script>
 </body>
+
 </html>

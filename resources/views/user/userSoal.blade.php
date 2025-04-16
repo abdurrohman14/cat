@@ -239,7 +239,8 @@
 
             // Cegah tombol keluar
             document.addEventListener("keydown", function(e) {
-                if (e.key === "Escape" || e.key === "F11" || e.key === "F5" ||
+                if (e.key === "Escape" || e.key === "F11" || e.key === "F5" || e.key === "F12" ||
+                    (e.ctrlKey && e.shiftKey && e.key === "I") ||
                     (e.ctrlKey && e.key === "w") ||
                     (e.ctrlKey && e.key === "r") ||
                     (e.ctrlKey && e.shiftKey && e.key === "T") ||
@@ -255,13 +256,8 @@
             // Cegah perubahan tab
             document.addEventListener("visibilitychange", function() {
                 if (document.hidden && !selesaiUjian) {
-                    const userConfirm = confirm("Apakah anda yakin ingin keluar dari sesi ujian ini?");
-                    if (userConfirm) {
-                        window.location.href = "{{ route('finish-ujian') }}";
-                    } else {
-                        window.location.href =
-                            "{{ route('soal-ujian') }}"; // Redirect ke halaman finish ujian
-                    }
+                    alert('Anda telah keluar dari tab ujian. Sesi ujian akan diakhiri');
+                    window.location.href = "{{ route('finish-ujian') }}";
                 }
             });
 
@@ -270,12 +266,7 @@
                 e.preventDefault();
             });
 
-            document.addEventListener("keydown", function(e) {
-                if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) {
-                    e.preventDefault();
-                }
-            });
-
+            // Memanggil fullscreen dengan double click
             document.addEventListener("dblclick", function() {
                 lockScreen();
             });

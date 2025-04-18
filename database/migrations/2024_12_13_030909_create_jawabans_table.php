@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('jawabans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('soal_acak_id')->references('id')->on('soal_acaks')->onDelete('cascade');
-            $table->foreignId('pengaturan_id')->references('id')->on('pengaturans')->onDelete('cascade');
+            $table->foreignId('pelaksanaan_ujian_id')->references('id')->on('pelaksanaan_ujians')->onDelete('cascade');
             $table->char('jawaban');
             $table->boolean('benar')->default(0);
             // $table->boolean('status')->default(0);

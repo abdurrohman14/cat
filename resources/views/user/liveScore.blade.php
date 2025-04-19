@@ -15,16 +15,6 @@
         min-height: 100vh;
         padding: 20px 0;
       }
-      .info-item {
-        display: grid;
-        grid-template-columns: 300px 10px auto; /* Label, titik dua, dan nilai */
-        gap: 10px;
-        margin-bottom: 10px;
-      }
-      .info-item .label {
-        font-weight: bold;
-        /* width: 250px; */
-      }
       .logo {
         margin-bottom: 20px;
         text-align: center;
@@ -86,30 +76,30 @@
           </div>
           <div class="row d-flex justify-content-center">
             <div class="col-lg-7">
-              <div class="info-item">
-                <div class="label">Nama</div>
-                <div>:</div>
-                <div>{{ $user->name }}</div>
+              <div class="row mb-2">
+                <div class="col-5 col-md-4 fw-bold">Nama</div>
+                <div class="col-1">:</div>
+                <div class="col-6 col-md-7">{{ $user->name }}</div>
               </div>
-              <div class="info-item">
-                <div class="label">Skor</div>
-                <div>:</div>
-                <div>{{ number_format($skor, 2) }}</div>
+              <div class="row mb-2">
+                <div class="col-5 col-md-4 fw-bold">Skor</div>
+                <div class="col-1">:</div>
+                <div class="col-6 col-md-7">{{ number_format($skor, 2) }}</div>
               </div>
-              <div class="info-item">
-                <div class="label">Benar</div>
-                <div>:</div>
-                <div>{{ $totalBenar }}</div>
+              <div class="row mb-2">
+                <div class="col-5 col-md-4 fw-bold">Benar</div>
+                <div class="col-1">:</div>
+                <div class="col-6 col-md-7">{{ $totalBenar }}</div>
               </div>
-              <div class="info-item">
-                <div class="label">Salah</div>
-                <div>:</div>
-                <div>{{ $totalSalah }}</div>
+              <div class="row mb-2">
+                <div class="col-5 col-md-4 fw-bold">Salah</div>
+                <div class="col-1">:</div>
+                <div class="col-6 col-md-7">{{ $totalSalah }}</div>
               </div>
-              <div class="info-item">
-                <div class="label">Status</div>
-                <div>:</div>
-                <div class="fw-bold {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">
+              <div class="row mb-2">
+                <div class="col-5 col-md-4 fw-bold">Status</div>
+                <div class="col-1">:</div>
+                <div class="col-6 col-md-7 fw-bold" {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">
                   {{ $skor >= 61 ? 'Lulus' : 'Tidak Lulus' }}
               </div>
               </div>

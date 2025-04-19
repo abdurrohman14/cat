@@ -44,12 +44,12 @@ class SendWhatsappNotification extends Command
         $user = User::where('role', '!=', 'admin')->get();
 
         foreach ($user as $user) {
-            $message = "Halo, {$user->name}. Berikut adalah informasi penting.\n\n" . 
-                        "Username: {$user->email}\n" . 
-                        "Password: {$user->password}\n\n" . 
+            $message = "Halo, {$user->name}. Berikut adalah jadwal ujian anda.\n\n" . 
+                        // "Username: {$user->email}\n" . 
+                        // "Password: {$user->password}\n\n" . 
                         "📝 *Jadwal Ujian*: {$jadwalUjian}\n\n" . 
                         "⏰ *Waktu*: {$waktuMulai} - {$waktuSelesai}\n\n" . 
-                        'Selamat belajar dan semoga sukses! 🎓';
+                        'Silahkan masuk menggunakan email dan password anda. Selamat belajar dan semoga sukses! 🎓';
             WhatsAppHelper::sendWhatsAppMessage($user->nomor_wa, $message);
         }
         // return redirect()->route('peserta')->with('success', 'Pesan Berhasil Dikirimkan');

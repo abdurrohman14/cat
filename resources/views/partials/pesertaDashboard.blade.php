@@ -22,19 +22,6 @@ $nomor_wa = Str::replaceFirst('+62', '0', $user->nomor_wa);
             padding: 20px 0;
         }
 
-        .info-item {
-            display: grid;
-            grid-template-columns: 300px 10px auto;
-            /* Label, titik dua, dan nilai */
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .info-item .label {
-            font-weight: bold;
-            /* width: 250px; */
-        }
-
         .logo {
             margin-bottom: 20px;
             text-align: center;
@@ -105,31 +92,31 @@ $nomor_wa = Str::replaceFirst('+62', '0', $user->nomor_wa);
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-7">
-                        <div class="info-item">
-                            <div class="label">Nama</div>
-                            <div>:</div>
-                            <div>{{ $user->name }}</div>
+                        <div class="row mb-2">
+                            <div class="col-5 col-md-4 fw-bold">Nama</div>
+                            <div class="col-1">:</div>
+                            <div class="col-6 col-md-7">{{ $user->name }}</div>
                         </div>
-                        <div class="info-item">
-                            <div class="label">Tempat & Tanggal Lahir</div>
-                            <div>:</div>
-                            <div>{{ $user->tempat_lahir }},
+                        <div class="row mb-2">
+                            <div class="col-5 col-md-4 fw-bold">Tempat & Tanggal Lahir</div>
+                            <div class="col-1">:</div>
+                            <div class="col-6 col-md-7">{{ $user->tempat_lahir }},
                                 {{ Carbon\Carbon::parse($user->tanggal_lahir)->format('d F Y') }}</div>
                         </div>
-                        <div class="info-item">
-                            <div class="label">Email</div>
-                            <div>:</div>
-                            <div>{{ $user->email }}</div>
+                        <div class="row mb-2">
+                            <div class="col-5 col-md-4 fw-bold">Email</div>
+                            <div class="col-1">:</div>
+                            <div class="col-6 col-md-7">{{ $user->email }}</div>
                         </div>
-                        <div class="info-item">
-                            <div class="label">No. Telpon</div>
-                            <div>:</div>
-                            <div>{{ $nomor_wa }}</div>
+                        <div class="row mb-2">
+                            <div class="col-5 col-md-4 fw-bold">No. Telpon</div>
+                            <div class="col-1">:</div>
+                            <div class="col-6 col-md-7">{{ $nomor_wa }}</div>
                         </div>
-                        <div class="info-item">
-                            <div class="label">Alamat</div>
-                            <div>:</div>
-                            <div>{{ $user->alamat }}</div>
+                        <div class="row mb-2">
+                            <div class="col-5 col-md-4 fw-bold">Alamat</div>
+                            <div class="col-1">:</div>
+                            <div class="col-6 col-md-7">{{ $user->alamat }}</div>
                         </div>
                     </div>
                 </div>

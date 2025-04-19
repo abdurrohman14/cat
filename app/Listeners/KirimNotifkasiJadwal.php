@@ -37,7 +37,7 @@ class KirimNotifkasiJadwal
             $message = "Halo, {$user->name}. Berikut jadwal ujian Anda:\n\n" .
                        "📝 *Jadwal Ujian*: {$jadwalUjian}\n" .
                        "⏰ *Waktu*: {$waktuMulai} - {$waktuSelesai}\n\n" .
-                       "Selamat belajar dan semoga sukses! 🎓";
+                       "Silahkan masuk menggunakan email dan password anda. Selamat belajar dan semoga sukses! 🎓";
 
             WhatsAppHelper::sendWhatsAppMessage($user->nomor_wa, $message);
         }

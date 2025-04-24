@@ -48,34 +48,69 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="pilihan_a">Pilihan A</label>
-                                    <input type="text" class="form-control" name="pilihan_a" id="pilihan_a"
-                                        placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="b">
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_a" id="pilihan_a"
+                                            placeholder="">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="pilihan_b">Pilihan B</label>
-                                    <input type="text" class="form-control" name="pilihan_b" id="pilihan_b"
-                                        placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="b">
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_b" id="pilihan_b"
+                                            placeholder="">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="pilihan_c">Pilihan C</label>
-                                    <input type="text" class="form-control" name="pilihan_c" id="pilihan_c"
-                                        placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="b">
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_c" id="pilihan_c"
+                                            placeholder="">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="pilihan_d">Pilihan D</label>
-                                    <input type="text" class="form-control" name="pilihan_d" id="pilihan_d"
-                                        placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="b">
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_d" id="pilihan_d"
+                                            placeholder="">
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="pilihan_e">Pilihan E</label>
-                                    <input type="text" class="form-control" name="pilihan_e" id="pilihan_e"
-                                        placeholder="">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="b">
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_e" id="pilihan_e"
+                                            placeholder="">
+                                    </div>
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="jawaban_benar">Jawaban Benar</label>
                                     <input type="text" class="form-control" name="jawaban_benar" id="jawaban_benar"
                                         placeholder="">
-                                </div>
+                                </div> --}}
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">

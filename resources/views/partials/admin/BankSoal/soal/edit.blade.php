@@ -49,36 +49,24 @@
                                     <label for="soal">Soal</label>
                                     <textarea id="summernote" name="soal">{{ old('soal', $soal->soal) }}</textarea>
                                 </div>
+                                @php
+                                    $pilihan = ['a', 'b', 'c', 'd', 'e'];
+                                @endphp
+                                @foreach ($pilihan as $item)
                                 <div class="form-group">
-                                    <label for="pilihan_a">Pilihan A</label>
-                                    <input type="text" class="form-control" name="pilihan_a" id="pilihan_a"
-                                        value="{{ old('pilihan_a', $soal->pilihan_a) }}">
+                                    <label for="pilihan_{{ $item }}">Pilihan {{ strtoupper($item) }}</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input type="radio" name="jawaban_benar" value="{{ $item }}"
+                                                    {{ $soal->{'pilihan_' . $item} === $soal->jawaban_benar ? 'checked' : '' }} required>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control" name="pilihan_{{ $item }}"
+                                            value="{{ $soal->{'pilihan_' . $item} }}" id="pilihan_{{ $item }}">
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="pilihan_b">Pilihan B</label>
-                                    <input type="text" class="form-control" name="pilihan_b" id="pilihan_b"
-                                        value="{{ old('pilihan_b', $soal->pilihan_b) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pilihan_c">Pilihan C</label>
-                                    <input type="text" class="form-control" name="pilihan_c" id="pilihan_c"
-                                        value="{{ old('pilihan_c', $soal->pilihan_c) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pilihan_d">Pilihan D</label>
-                                    <input type="text" class="form-control" name="pilihan_d" id="pilihan_d"
-                                        value="{{ old('pilihan_d', $soal->pilihan_d) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pilihan_e">Pilihan E</label>
-                                    <input type="text" class="form-control" name="pilihan_e" id="pilihan_e"
-                                        value="{{ old('pilihan_e', $soal->pilihan_e) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="jawaban_benar">Jawaban Benar</label>
-                                    <input type="text" class="form-control" name="jawaban_benar" id="jawaban_benar"
-                                        value="{{ old('jawaban_benar', $soal->jawaban_benar) }}">
-                                </div>
+                            @endforeach
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">

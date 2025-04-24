@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\pelaksanaanUjian;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Models\KategoriSoal;
 use Illuminate\Support\Facades\Auth;
 
 class UserSoalController extends Controller
@@ -18,8 +19,13 @@ class UserSoalController extends Controller
     {
         $user = Auth::user();
         $pengaturan = Pengaturan::first();
+        $kategoriList = KategoriSoal::all();
+        $jumlahKategori = $kategoriList->count();
         $jumlahSoal = Pengaturan::first()->jumlah_soal;
         $durasi = $pengaturan->durasi;
+
+        $soals = collect();
+        $soalPerKategori = floor($jumlahSoal / $jumlahKategori);
 
         // Ambil soal acak dari tabel soal_acaks
         $soalAcaks = soalAcak::where('user_id', $user->id)->orderBy('index_soal')->take($jumlahSoal)->get();
@@ -27,7 +33,15 @@ class UserSoalController extends Controller
         // Jika tidak ada soal acak, ambil dari database dan simpan ke soal_acaks
         if ($soalAcaks->isEmpty()) {
             // Ambil soal dari database
-            $soals = Soal::with('kategori')->inRandomOrder()->take($jumlahSoal)->get();
+            // $soals = Soal::with('kategori')->inRandomOrder()->take($jumlahSoal)->get();
+            foreach ($kategoriList as $kategori) {
+                $soalKategori = Soal::where('kategori_soal', $kategori->id)
+                    ->inRandomOrder()
+                    ->take($soalPerKategori)
+                    ->get();
+
+                $soals = $soals->merge($soalKategori);
+            }
 
             // Simpan index soal ke tabel soal_acaks
             foreach ($soals as $index => $soal) {
@@ -125,7 +139,7 @@ class UserSoalController extends Controller
         $pelaksanaanUjian = pelaksanaanUjian::where('user_id', $user->id)->latest('created_at')->first();
         // Hitung skor
         $jawabanUser = Jawaban::where('pelaksanaan_ujian_id', $pelaksanaanUjian->id)->get();
-        
+
         $soalIds = $jawabanUser->pluck('soal_acak_id')->toArray();
         $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->where('user_id', $user->id)->get();
 
@@ -147,7 +161,7 @@ class UserSoalController extends Controller
                     $totalSalah++;
                 }
             }
-    
+
             // Hitung Nilai Akhir
             $totalPoinMaksimal = $totalSoal * $bobotSoal;
             $nilaiAkhir = ($skor / $totalPoinMaksimal) * 100;
@@ -161,7 +175,7 @@ class UserSoalController extends Controller
             'skor' => $nilaiAkhir,
             'status' => $status,
         ]);
-        
+
         return view('user.liveScore', [
             'user' => $user,
             'skor' => $nilaiAkhir,

@@ -150,12 +150,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-danger" id="confirm-delete">Hapus</button>
-                    {{-- <form id="delete-form" action="" method="POST" style="display: inline;">
+                    {{-- <button type="button" class="btn btn-danger" id="confirm-delete">Hapus</button> --}}
+                    <form id="delete-form" action="" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Hapus</button>
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>

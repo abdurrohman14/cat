@@ -10,7 +10,7 @@ class Pengaturan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'jadwal','waktu_mulai', 'waktu_selesai', 'jumlah_soal', 'durasi'
+        'jumlah_soal', 'durasi'
     ];
 
     public function jawaban() {

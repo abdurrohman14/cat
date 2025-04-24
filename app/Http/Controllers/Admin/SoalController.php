@@ -37,9 +37,12 @@ class SoalController extends Controller
                 'pilihan_c' => 'nullable|string',
                 'pilihan_d' => 'nullable|string',
                 'pilihan_e' => 'nullable|string',
-                'jawaban_benar' => 'nullable|string',
+                'jawaban_benar' => 'required|in:a,b,c,d,e',
             ]);
-    
+
+            $jawabanKey = $request->jawaban_benar;
+            $jawabanText = $request->input(['pilihan_' . $jawabanKey]);
+
             Soal::create([
                 'kategori_soal' => $request->kategori_soal,
                 'soal' => $request->soal,
@@ -48,7 +51,7 @@ class SoalController extends Controller
                 'pilihan_c' => $request->pilihan_c,
                 'pilihan_d' => $request->pilihan_d,
                 'pilihan_e' => $request->pilihan_e,
-                'jawaban_benar' => $request->jawaban_benar,
+                'jawaban_benar' => $jawabanText,
             ]);
             return redirect()->route('index.soal')->with('success', 'Soal berhasil ditambah');
         } catch (\Throwable $e) {
@@ -76,10 +79,12 @@ class SoalController extends Controller
                 'pilihan_c' => 'nullable|string',
                 'pilihan_d' => 'nullable|string',
                 'pilihan_e' => 'nullable|string',
-                'jawaban_benar' => 'nullable|string',
+                'jawaban_benar' => 'required|in:a,b,c,d,e',
             ]);
-    
+
             $soal = Soal::findOrFail($id);
+            $jawabanKey = $request->jawaban_benar;
+            $jawabanText = $request->input(['pilihan_' . $jawabanKey]);
             $soal->update([
                 'kategori_soal' => $request->kategori_soal,
                 'soal' => $request->soal,
@@ -88,7 +93,7 @@ class SoalController extends Controller
                 'pilihan_c' => $request->pilihan_c,
                 'pilihan_d' => $request->pilihan_d,
                 'pilihan_e' => $request->pilihan_e,
-                'jawaban_benar' => $request->jawaban_benar,
+                'jawaban_benar' => $jawabanText,
             ]);
             return redirect()->route('index.soal')->with('success', 'Soal berhasil diupdate');
         } catch (\Throwable $e) {

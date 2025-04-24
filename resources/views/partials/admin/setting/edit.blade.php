@@ -33,7 +33,7 @@
                         <form action="{{ route('setting-update', $setting->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="card-body">
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="jadwal">Jadwal</label>
                                     <input type="date" class="form-control" name="jadwal" id="jadwal" placeholder="" value="{{ $setting->jadwal }}">
                                 </div>
@@ -44,16 +44,16 @@
                                 <div class="form-group">
                                     <label for="waktu_selesai">Waktu Selesai</label>
                                     <input type="time" class="form-control" name="waktu_selesai" id="waktu_selesai" placeholder="" value="{{ $setting->waktu_selesai }}">
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="jumlah_soal">Jumlah Soal</label>
                                     <input type="number" class="form-control" name="jumlah_soal" id="jumlah_soal" placeholder="" value="{{ $setting->jumlah_soal }}">
                                 </div>
-                                {{-- <div class="form-group">
+                                <div class="form-group">
                                     <label for="durasi">Durasi</label>
                                     <input type="number" class="form-control" name="durasi" id="durasi"
                                         placeholder="">
-                                </div> --}}
+                                </div>
                                 <!-- /.card-body -->
                             </div>
                             <div class="card-footer">

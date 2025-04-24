@@ -29,23 +29,27 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $nomor_wa = $request->nomor_wa;
+            if (substr($nomor_wa, 0, 1) === '0') {
+                $nomor_wa = '+62' . substr($nomor_wa, 1);
+            }
+
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'nomor_wa' => ['required', 'string', 'max:15'],
+                'nomor_wa' => ['required', 'string', 'max:15', 'unique:' . User::class],
                 'tempat_lahir' => ['required', 'string', 'max:255'],
                 'tanggal_lahir' => ['required', 'date'],
                 'alamat' => ['required', 'string', 'max:255'],
                 'nrp' => ['required', 'string', 'max:20'],
                 'jenis_kelamin' => ['required', 'in:Laki-laki,Perempuan'],
+            ],
+            [
+                'email.unique' => 'Email sudah terdaftar.',
+                'nomor_wa.unique' => 'Nomor WhatsApp sudah terdaftar.',
             ]);
-
-            $nomor_wa = $request->nomor_wa;
-            if (substr($nomor_wa, 0, 1) === '0') {
-                $nomor_wa = '+62' . substr($nomor_wa, 1);
-            }
 
             $user = User::create([
                 'name' => $request->name,
@@ -63,7 +67,8 @@ class RegisteredUserController extends Controller
 
             // Auth::login($user);
 
-            return redirect(route('login', absolute: false));
+            // return redirect(route('login', absolute: false));
+            return redirect()->route('login')->with('success', 'Registrasi Berhasil');
         } catch (\Throwable $e) {
             return redirect()->route('register')->with('error', $e->getMessage());
         }

@@ -36,27 +36,27 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Jadwal Ujian</th>
+                                        {{-- <th>Jadwal Ujian</th>
                                         <th>Waktu Mulai</th>
-                                        <th>Waktu Selesai</th>
+                                        <th>Waktu Selesai</th> --}}
                                         <th>Jumlah Soal</th>
                                         <th>Durasi</th>
-                                        <th>Aksi</th>
+                                        {{-- <th>Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($setting as $key => $pengaturan)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
-                                            <td>{{ Carbon\Carbon::parse($pengaturan->jadwal)->format('d F Y') }}</td>
+                                            {{-- <td>{{ Carbon\Carbon::parse($pengaturan->jadwal)->format('d F Y') }}</td>
                                             <td>{{ $pengaturan->waktu_mulai }}</td>
-                                            <td>{{ $pengaturan->waktu_selesai }}</td>
+                                            <td>{{ $pengaturan->waktu_selesai }}</td> --}}
                                             <td>{{ $pengaturan->jumlah_soal }}</td>
                                             <td>{{ $pengaturan->durasi }}</td>
-                                            <td>
+                                            {{-- <td>
                                                 <a href="{{ route('setting-edit', $pengaturan->id) }}" class="btn btn-info btn-sm"><i
                                                         class="fas fa-pencil-alt"></i>edit</a>
-                                            </td>
+                                            </td> --}}
                                         </tr>
                                     @endforeach
                                 </tbody>

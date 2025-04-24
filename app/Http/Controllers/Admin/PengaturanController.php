@@ -27,29 +27,19 @@ class PengaturanController extends Controller
     public function store(Request $request) {
         try {
             $request->validate([
-                'jadwal' => 'required|date',
-                'waktu_mulai' => 'required|date_format:H:i',
-                'waktu_selesai' => 'required|date_format:H:i',
+                'durasi' => 'required|integer',
                 'jumlah_soal' => 'required|integer',
-                // 'durasi' => 'required|integer',
             ]);
-    
-            $waktuMulai = Carbon::createFromFormat('H:i', $request->waktu_mulai);
-            $waktuSelesai = Carbon::createFromFormat('H:i', $request->waktu_selesai);
-    
-            // dalam format menit
-            $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
-    
-            $data = $request->all();
-            $data['durasi'] = $durasi;
-    
+
+            $data = $request->only(['durasi', 'jumlah_soal']);
+
             $setting = Pengaturan::first();
             if($setting) {
                 $setting->update($data);
             } else {
                 $setting = Pengaturan::create($data);
             }
-            
+
             event(new JadwalUjianDibuat($setting));
             return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil disimpan');
         } catch (\Exception $e) {
@@ -69,28 +59,18 @@ class PengaturanController extends Controller
         try {
             // Validasi input
             $request->validate([
-                'jadwal' => 'required|date',
-                'waktu_mulai' => 'required|date_format:H:i',
-                'waktu_selesai' => 'required|date_format:H:i',
+                'durasi' => 'required|integer',
                 'jumlah_soal' => 'required|integer',
-                // 'durasi' => 'required|integer', // durasi tidak perlu divalidasi karena akan dihitung
             ]);
-    
+
             // Ambil pengaturan berdasarkan ID
             $setting = Pengaturan::findOrFail($id);
-    
-            // Menghitung durasi
-            $waktuMulai = Carbon::createFromFormat('H:i', $request->waktu_mulai);
-            $waktuSelesai = Carbon::createFromFormat('H:i', $request->waktu_selesai);
-            $durasi = $waktuMulai->diffInMinutes($waktuSelesai);
-    
-            // Siapkan data untuk diperbarui
-            $data = $request->all();
-            $data['durasi'] = $durasi;
-    
+
+            $data = $request->only(['durasi', 'jumlah_soal']);
+
             // Perbarui pengaturan
             $setting->update($data);
-    
+
             return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil diperbarui');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

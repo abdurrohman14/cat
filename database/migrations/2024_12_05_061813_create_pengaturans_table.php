@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pengaturans', function (Blueprint $table) {
             $table->id();
-            $table->date('jadwal');
-            $table->time('waktu_mulai');
-            $table->time('waktu_selesai');
+            // $table->date('jadwal');
+            // $table->time('waktu_mulai');
+            // $table->time('waktu_selesai');
             $table->integer('jumlah_soal')->default(0);
             $table->integer('durasi')->default(0);
             $table->timestamps();

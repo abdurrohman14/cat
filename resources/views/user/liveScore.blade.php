@@ -99,7 +99,7 @@
               <div class="row mb-2">
                 <div class="col-5 col-md-4 fw-bold">Status</div>
                 <div class="col-1">:</div>
-                <div class="col-6 col-md-7 fw-bold" {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">
+                <div class="col-6 col-md-7 fw-bold {{ $skor >= 61 ? 'text-success' : 'text-danger' }}">
                   {{ $skor >= 61 ? 'Lulus' : 'Tidak Lulus' }}
               </div>
               </div>

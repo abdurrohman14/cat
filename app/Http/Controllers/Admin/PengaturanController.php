@@ -34,11 +34,12 @@ class PengaturanController extends Controller
             $data = $request->only(['durasi', 'jumlah_soal']);
 
             $setting = Pengaturan::first();
-            if($setting) {
-                $setting->update($data);
-            } else {
-                $setting = Pengaturan::create($data);
-            }
+            // if($setting) {
+            //     $setting->update($data);
+            // } else {
+            //     $setting = Pengaturan::create($data);
+            // }
+            $setting = Pengaturan::create($data);
 
             event(new JadwalUjianDibuat($setting));
             return redirect()->route('setting-index')->with('success', 'Pengaturan berhasil disimpan');

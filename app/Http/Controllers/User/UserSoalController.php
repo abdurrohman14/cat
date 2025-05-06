@@ -18,14 +18,15 @@ class UserSoalController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $pengaturan = Pengaturan::first();
+        $pengaturan = Pengaturan::latest()->first();
         $kategoriList = KategoriSoal::all();
         $jumlahKategori = $kategoriList->count();
-        $jumlahSoal = Pengaturan::first()->jumlah_soal;
+        $jumlahSoal = $pengaturan->jumlah_soal;
         $durasi = $pengaturan->durasi;
 
         $soals = collect();
         $soalPerKategori = floor($jumlahSoal / $jumlahKategori);
+        $sisa = $jumlahSoal % $jumlahKategori;
 
         // Ambil soal acak dari tabel soal_acaks
         $soalAcaks = soalAcak::where('user_id', $user->id)->orderBy('index_soal')->take($jumlahSoal)->get();
@@ -34,10 +35,15 @@ class UserSoalController extends Controller
         if ($soalAcaks->isEmpty()) {
             // Ambil soal dari database
             // $soals = Soal::with('kategori')->inRandomOrder()->take($jumlahSoal)->get();
-            foreach ($kategoriList as $kategori) {
+            foreach ($kategoriList as $index => $kategori) {
+                $ambil = $soalPerKategori;
+
+                if($index < $sisa) {
+                    $ambil += 1;
+                }
                 $soalKategori = Soal::where('kategori_soal', $kategori->id)
                     ->inRandomOrder()
-                    ->take($soalPerKategori)
+                    ->take($ambil)
                     ->get();
 
                 $soals = $soals->merge($soalKategori);

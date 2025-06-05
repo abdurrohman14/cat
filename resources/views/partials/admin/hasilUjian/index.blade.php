@@ -36,6 +36,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Tanggal</th>
                                     <th>Nama</th>
                                     <th>Status</th>
                                     <th>Skor</th>
@@ -46,6 +47,7 @@
                                 @foreach ($hasilUjian as $key => $hasil)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
+                                        <th>{{ $hasil->formatted_created_at }}</th>
                                         <td>{{ $hasil->user->name }}</td>
                                         <td class="{{ $hasil->status == 'Lulus' ? 'text-success' : 'text-danger'}}">{{ $hasil->status }}</td>
                                         <td>{{ $hasil->skor }}</td>

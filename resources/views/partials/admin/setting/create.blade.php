@@ -30,37 +30,40 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action="{{ route('setting-store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('setting-store') }}" method="POST">
                             @csrf
                             <div class="card-body">
-                                {{-- <div class="form-group">
-                                    <label for="jadwal">Jadwal</label>
-                                    <input type="date" class="form-control" name="jadwal" id="jadwal" placeholder="">
+                                <div id="setting-container">
+                                    <div class="row setting-row mb-2">
+                                        <div class="col-md-6">
+                                            <label>Kategori Soal</label>
+                                            <select name="kategori_soal_id[]" class="form-control" required>
+                                                <option value="">-- Pilih Kategori --</option>
+                                                @foreach ($kategori as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Jumlah Soal</label>
+                                            <input type="number" name="jumlah_soal[]" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-2 d-flex align-items-end">
+                                            <button type="button" class="btn btn-danger remove-row">Hapus</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="waktu_mulai">Waktu Mulai</label>
-                                    <input type="time" class="form-control" name="waktu_mulai" id="waktu_mulai" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="waktu_selesai">Waktu Selesai</label>
-                                    <input type="time" class="form-control" name="waktu_selesai" id="waktu_selesai" placeholder="">
-                                </div> --}}
-                                <div class="form-group">
-                                    <label for="jumlah_soal">Jumlah Soal</label>
-                                    <input type="number" class="form-control" name="jumlah_soal" id="jumlah_soal" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="durasi">Durasi</label>
-                                    <input type="number" class="form-control" name="durasi" id="durasi"
-                                        placeholder="">
-                                </div>
-                                <!-- /.card-body -->
+
+                                <button type="button" id="add-row" class="btn btn-secondary mb-3">Tambah
+                                    Kategori</button>
                             </div>
+
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
-                                <button type="submit" class="btn btn-danger"><a href="{{ route('setting-index') }}" class="text-decoration-none text-white">Kembali</a></button>
+                                <a href="{{ route('setting-index') }}" class="btn btn-danger">Kembali</a>
                             </div>
                         </form>
+
                     </div>
                     <!-- /.card -->
                 </div>
@@ -71,3 +74,25 @@
     </section>
     <!-- /.content -->
 @endsection
+@push('scripts')
+    <script>
+        document.getElementById('add-row').addEventListener('click', function() {
+            const container = document.getElementById('setting-container');
+            const row = container.querySelector('.setting-row').cloneNode(true);
+
+            row.querySelectorAll('input').forEach(input => input.value = '');
+            row.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+            container.appendChild(row);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-row')) {
+                const container = document.getElementById('setting-container');
+                if (container.querySelectorAll('.setting-row').length > 1) {
+                    e.target.closest('.setting-row').remove();
+                }
+            }
+        });
+    </script>
+@endpush

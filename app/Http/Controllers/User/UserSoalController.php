@@ -6,11 +6,12 @@ use App\Models\Soal;
 use App\Models\Jawaban;
 use App\Models\soalAcak;
 use App\Models\Pengaturan;
+use App\Models\KategoriSoal;
 use Illuminate\Http\Request;
 use App\Models\pelaksanaanUjian;
+use App\Models\PengaturanDetail;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Models\KategoriSoal;
 use Illuminate\Support\Facades\Auth;
 
 class UserSoalController extends Controller
@@ -19,29 +20,24 @@ class UserSoalController extends Controller
     {
         $user = Auth::user();
         $pengaturan = Pengaturan::latest()->first();
-        $kategoriList = KategoriSoal::all();
-        $jumlahKategori = $kategoriList->count();
-        $jumlahSoal = $pengaturan->jumlah_soal;
+
+        $pengaturanDetails = PengaturanDetail::where('pengaturan_id', $pengaturan->id)->get();
+
+        $kategoriList = KategoriSoal::whereIn('id', $pengaturanDetails->pluck('kategori_soal_id'))->get();
+
+        $jumlahSoal = $pengaturanDetails->sum('jumlah_soal');
         $durasi = $pengaturan->durasi;
 
         $soals = collect();
-        $soalPerKategori = floor($jumlahSoal / $jumlahKategori);
-        $sisa = $jumlahSoal % $jumlahKategori;
 
         // Ambil soal acak dari tabel soal_acaks
         $soalAcaks = soalAcak::where('user_id', $user->id)->orderBy('index_soal')->take($jumlahSoal)->get();
 
         // Jika tidak ada soal acak, ambil dari database dan simpan ke soal_acaks
         if ($soalAcaks->isEmpty()) {
-            // Ambil soal dari database
-            // $soals = Soal::with('kategori')->inRandomOrder()->take($jumlahSoal)->get();
-            foreach ($kategoriList as $index => $kategori) {
-                $ambil = $soalPerKategori;
-
-                if($index < $sisa) {
-                    $ambil += 1;
-                }
-                $soalKategori = Soal::where('kategori_soal', $kategori->id)
+            foreach ($pengaturanDetails as $detail) {
+                $ambil = $detail->jumlah_soal;
+                $soalKategori = Soal::where('kategori_soal', $detail->kategori_soal_id)
                     ->inRandomOrder()
                     ->take($ambil)
                     ->get();
@@ -78,7 +74,7 @@ class UserSoalController extends Controller
         $pelaksanaanUjian = pelaksanaanUjian::create([
             'user_id' => $user->id,
             'pengaturan_id' => $pengaturan->id
-        ],[
+        ], [
             'skor' => 0,
         ]);
 
@@ -146,26 +142,35 @@ class UserSoalController extends Controller
         // Hitung skor
         $jawabanUser = Jawaban::where('pelaksanaan_ujian_id', $pelaksanaanUjian->id)->get();
 
-        $soalIds = $jawabanUser->pluck('soal_acak_id')->toArray();
-        $soals = soalAcak::with('soal')->whereIn('id', $soalIds)->where('user_id', $user->id)->get();
+        $soals = soalAcak::with('soal')->where('user_id', $user->id)->get();
 
         $skor = 0;
         $totalSoal = $soals->count();
         $bobotSoal = 4;
         $totalBenar = 0;
         $totalSalah = 0;
+        $detailJawaban = [];
 
-        if($totalSoal > 0) {
-            foreach($soals as $soalAcak) {
+        if ($totalSoal > 0) {
+            foreach ($soals as $soalAcak) {
                 $soal = $soalAcak->soal;
                 $jawaban = $jawabanUser->where('soal_acak_id', $soalAcak->id)->first();
 
-                if ($jawaban && $jawaban->jawaban == $soal->jawaban_benar) {
+                $benar = $jawaban && $jawaban->jawaban == $soal->jawaban_benar;
+
+                if ($benar) {
                     $totalBenar++;
                     $skor += $bobotSoal;
                 } else {
                     $totalSalah++;
                 }
+
+                $detailJawaban[] = [
+                    'pertanyaan' => $soal->soal,
+                    'jawaban_user' => $jawaban ? $jawaban->jawaban : '-',
+                    'jawaban_benar' => $soal->jawaban_benar,
+                    'status' => $benar ? 'Benar' : 'Salah',
+                ];
             }
 
             // Hitung Nilai Akhir
@@ -188,6 +193,8 @@ class UserSoalController extends Controller
             'totalSoal' => $totalSoal,
             'totalBenar' => $totalBenar,
             'totalSalah' => $totalSalah,
+            'detailJawaban' => $detailJawaban,
+            'pelaksanaanUjian' => $pelaksanaanUjian,
             'title' => 'CAT - Simulasi Ujian Kenaikan Pangkat',
         ]);
     }
@@ -208,7 +215,7 @@ class UserSoalController extends Controller
                 // Tentukan jawaban benar dan salah
                 $benar = ($jawaban['jawaban'] == $soal->jawaban_benar) ? 1 : 0;
                 // Simpan ke database
-                Jawaban::updateOrCreate([ 'soal_acak_id' => $soalAcakId], ['jawaban' => $jawaban['jawaban'], 'pelaksanaan_ujian_id' => $pelaksanaanUjian->id, 'benar' => $benar]);
+                Jawaban::updateOrCreate(['soal_acak_id' => $soalAcakId], ['jawaban' => $jawaban['jawaban'], 'pelaksanaan_ujian_id' => $pelaksanaanUjian->id, 'benar' => $benar]);
             }
         }
 

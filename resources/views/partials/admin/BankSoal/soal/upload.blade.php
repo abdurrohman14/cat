@@ -52,7 +52,10 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="uploadSoal">Upload Soal</label>
-                                    <input type="file" name="file" class="form-control" required>
+                                    <input type="file" name="file" class="form-control" accept=".xlx, .xlsx" required>
+                                    <small class="form-text text-danger">
+                                        <i class="fas fa-info-circle"></i> File harus dalam format .xlx atau .xlsx
+                                    </small>
                                 </div>
                             </div>
                             <!-- /.card-body -->

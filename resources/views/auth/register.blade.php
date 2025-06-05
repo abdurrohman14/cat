@@ -7,6 +7,7 @@
     <title>{{ $title }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
@@ -147,7 +148,7 @@
                         <option value="Perempuan">Perempuan</option>
                     </select>
                 </div>
-            </div>            
+            </div>
             <div class="mb-3">
                 <div class="input-group">
                     <span class="input-group-text"><i class="bi bi-house"></i></span>
@@ -160,6 +161,9 @@
                     <span class="input-group-text"><i class="bi bi-lock"></i></span>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password"
                         required />
+                        <small class="form-text text-danger">
+                            <i class="fas fa-info-circle"></i> Password harus terdiri dari minimal 8 karakter.
+                        </small>
                 </div>
             </div>
             <div class="mb-3">

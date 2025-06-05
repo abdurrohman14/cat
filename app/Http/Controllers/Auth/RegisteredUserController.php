@@ -64,6 +64,7 @@ class RegisteredUserController extends Controller
             ]);
 
             // event(new Registered($user));
+            $user->sendEmailVerificationNotification();
 
             // Auth::login($user);
 

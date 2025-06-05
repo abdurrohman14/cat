@@ -29,6 +29,11 @@ class AuthenticatedSessionController extends Controller
 
             $request->session()->regenerate();
 
+            // cek email terverifikasi kecuali admin
+            if (Auth::user()->email_verified_at == null && Auth::user()->role != 'admin') {
+                return redirect()->route('login')->with('error', 'Email Anda Belum Diverifikasi!')->withInput();
+            }
+
             $role = Auth::user()->role;
 
             if ($role == 'admin') {

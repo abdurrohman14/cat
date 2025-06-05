@@ -20,4 +20,9 @@ class pelaksanaanUjian extends Model
     public function pengaturan() {
         return $this->belongsTo(Pengaturan::class, 'pengaturan_id');
     }
+
+    public function getFormattedCreatedAtAttribute()
+    {
+        return $this->created_at->format('d-M-Y'); // Format sesuai keinginan
+    }
 }

@@ -16,7 +16,8 @@ return new class extends Migration
             // $table->date('jadwal');
             // $table->time('waktu_mulai');
             // $table->time('waktu_selesai');
-            $table->integer('jumlah_soal')->default(0);
+            // $table->foreignId('kategori_soal_id')->references('id')->on('kategori_soals')->onDelete('cascade');
+            // $table->integer('jumlah_soal')->default(0);
             $table->integer('durasi')->default(0);
             $table->timestamps();
         });

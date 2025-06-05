@@ -5,10 +5,10 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SoalController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PengaturanController;
-use App\Http\Controllers\Admin\KategoriSoalController;
 use App\Http\Controllers\User\UserSoalController;
 use App\Http\Controllers\Admin\HasilUjianController;
+use App\Http\Controllers\Admin\PengaturanController;
+use App\Http\Controllers\Admin\KategoriSoalController;
 
 Route::get('/login', function () {
     return view('auth.login');
